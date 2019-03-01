@@ -1,7 +1,10 @@
+@import 'base';
+
 .container {
   width: 300px;
   padding: 1em;
   margin: 1em auto;
+  font-family: Helvetica;
   li {
     background: #eee;
   }

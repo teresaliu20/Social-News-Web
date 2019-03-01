@@ -1,0 +1,15 @@
+@import 'base';
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0 5%;
+  border-bottom: 1px solid $lightGray;
+  color: $darkGray;
+  .menu {
+    margin-left: auto;
+  }
+  .menu-item {
+    padding: 5px 20px;
+  }
+}

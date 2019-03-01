@@ -1,3 +1,9 @@
 @import "~normalize-scss/sass/normalize/import-now";
 @import "colors";
 @import "fonts";
+@import "globals";
+
+body {
+  color: blue;
+  padding: 50%;
+}

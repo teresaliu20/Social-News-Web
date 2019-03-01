@@ -1,4 +1,4 @@
-@import 'base';
+@import "base";
 
 .header {
   display: flex;
@@ -11,5 +11,8 @@
   }
   .menu-item {
     padding: 5px 20px;
+    &:hover {
+      color: lighten($darkGray, 20%);
+    }
   }
 }

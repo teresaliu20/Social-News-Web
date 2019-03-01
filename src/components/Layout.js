@@ -3,10 +3,11 @@ import Link from 'next/link'
 
 export default class Layout extends PureComponent {
   render () {
+    const { children } = this.props
     return (
       <div className='layout'>
         <header>
-          <img src='/static/next-logo.png' />
+          <img src='/static/next-logo.png' alt='logo' />
           <h3>nextjs redux starter</h3>
           <menu>
             <Link href='/about'>
@@ -16,7 +17,8 @@ export default class Layout extends PureComponent {
               <a>Redux demo</a>
             </Link>
           </menu>
-          <style jsx>{`
+          <style jsx>
+            {`
             header {
               display: flex;
               align-items: center;
@@ -32,9 +34,10 @@ export default class Layout extends PureComponent {
             menu > a {
               margin-right: 16px;
             }
-          `}</style>
+          `}
+          </style>
         </header>
-        { this.props.children }
+        { children }
       </div>
     )
   }

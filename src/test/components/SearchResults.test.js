@@ -24,8 +24,8 @@ describe('Components::SearchResults', () => {
   }
 
   it('renders all items', () => {
-    let doc = renderDoc()
-    let node = doc.find('li')
+    const doc = renderDoc()
+    const node = doc.find('li')
     expect(node).toHaveLength(props.repos.get('items').size)
   })
 })

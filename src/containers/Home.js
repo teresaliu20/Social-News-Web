@@ -5,6 +5,7 @@ class Home extends Component {
     return (
       <div>
         <h1>Welcome to Paper!</h1>
+        <p className="text-sans-serif">We </p>
       </div>
     );
   }

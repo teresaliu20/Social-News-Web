@@ -1,5 +1,15 @@
 @import 'base';
 
+.body {
+  font-family: $font-serif, Helvetica;
+}
+
 .layout {
-  font-family: "Source Serif Pro", Helvetica;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 5%;
+}
+
+.text-sans-serif {
+  font-family: $font-sans-serif;
 }

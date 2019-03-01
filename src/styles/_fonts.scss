@@ -32,3 +32,6 @@
 @include font-face("Source Sans Pro", static/fonts/SourceSansPro-Bold, 900, bold, ttf);
 @include font-face("Source Sans Pro", static/fonts/SourceSansPro-Semibold, 800, bold, ttf);
 @include font-face("Source Sans Pro", static/fonts/SourceSansPro-Regular, 700, normal, ttf);
+
+$font-serif: "Source Serif Pro";
+$font-sans-serif: "Source Sans Pro";

@@ -6,9 +6,11 @@ export default class Layout extends PureComponent {
   render() {
     const { children } = this.props;
     return (
-      <div className="layout">
+      <div className="body">
         <Header />
-        { children }
+        <div className="layout">
+          { children }
+        </div>
         <style jsx>{styles}</style>
       </div>
     );

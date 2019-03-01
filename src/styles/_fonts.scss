@@ -1,0 +1,34 @@
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: otf) {
+  $src: null;
+
+  $extmods: (
+    eot: "?",
+    svg: "#" + str-replace($name, " ", "_")
+  );
+
+  $formats: (
+    otf: "opentype",
+    ttf: "truetype"
+  );
+
+  @each $ext in $exts {
+    $extmod: if(map-has-key($extmods, $ext), $ext + map-get($extmods, $ext), $ext);
+    $format: if(map-has-key($formats, $ext), map-get($formats, $ext), $ext);
+    $src: append($src, url(quote("../" + $path + "." + $extmod)) format(quote($format)), comma);
+  }
+
+  @font-face {
+    font-family: quote($name);
+    font-style: $style;
+    font-weight: $weight;
+    src: $src;
+  }
+}
+
+@include font-face("Source Serif Pro", static/fonts/SourceSerifPro-Bold, 900, bold, ttf);
+@include font-face("Source Serif Pro", static/fonts/SourceSerifPro-Semibold, 800, bold, ttf);
+@include font-face("Source Serif Pro", static/fonts/SourceSerifPro-Regular, 700, normal, ttf);
+
+@include font-face("Source Sans Pro", static/fonts/SourceSansPro-Bold, 900, bold, ttf);
+@include font-face("Source Sans Pro", static/fonts/SourceSansPro-Semibold, 800, bold, ttf);
+@include font-face("Source Sans Pro", static/fonts/SourceSansPro-Regular, 700, normal, ttf);

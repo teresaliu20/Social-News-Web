@@ -8,9 +8,9 @@ const Header = () => (
       <h3>Paper</h3>
     </Link>
     <menu className="menu">
-      <Link href="/about">
+      <Link href="/profile">
         <div className="menu-item">
-          <a>Home</a>
+          <a>Profile</a>
         </div>
       </Link>
     </menu>

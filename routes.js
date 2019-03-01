@@ -1,12 +1,15 @@
-const nextRoutes = require('next-routes')
-const routes = module.exports = nextRoutes()
+const nextRoutes = require('next-routes');
+
+const routes = nextRoutes();
 
 const APP_ROUTES = [{
   page: 'index',
-  pattern: '/'
+  pattern: '/',
 }, {
-  page: 'about',
-  pattern: '/about'
-}]
+  page: 'profile',
+  pattern: '/profile',
+}];
 
-APP_ROUTES.forEach(route => routes.add(route))
+APP_ROUTES.forEach((route) => routes.add(route));
+
+module.exports = routes;

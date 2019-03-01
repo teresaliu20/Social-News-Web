@@ -1,4 +1,7 @@
-# Next.js redux starter
+# Welcome to Paper
+Built for CSCI 499 Computing For Social Good, created by Teresa Liu and William Wang.
+
+## Next.js redux starter
 An opinionated Next.js starter kit with Express, Redux, SASS, and Jest.
 
 ## About

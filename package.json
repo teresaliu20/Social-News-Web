@@ -60,7 +60,7 @@
     "clean": "rimraf node_modules/.cache .next",
     "lint": "standard --verbose | snazzy",
     "now-start": "yarn serve",
-    "lint:fix": "standard --fix --verbose | snazzy"
+    "lint:fix": "eslint ./src --fix"
   },
   "pre-commit": "lint-staged",
   "lint-staged": {

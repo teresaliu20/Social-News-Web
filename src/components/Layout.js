@@ -1,19 +1,19 @@
-import React, { PureComponent } from 'react'
-import Link from 'next/link'
+import React, { PureComponent } from 'react';
+import Link from 'next/link';
 
 export default class Layout extends PureComponent {
-  render () {
-    const { children } = this.props
+  render() {
+    const { children } = this.props;
     return (
-      <div className='layout'>
+      <div className="layout">
         <header>
-          <img src='/static/next-logo.png' alt='logo' />
+          <img src="/static/next-logo.png" alt="logo" />
           <h3>nextjs redux starter</h3>
           <menu>
-            <Link href='/about'>
+            <Link href="/about">
               <a>About</a>
             </Link>
-            <Link href='/'>
+            <Link href="/">
               <a>Redux demo</a>
             </Link>
           </menu>
@@ -39,6 +39,6 @@ export default class Layout extends PureComponent {
         </header>
         { children }
       </div>
-    )
+    );
   }
 }

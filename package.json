@@ -64,10 +64,10 @@
   },
   "pre-commit": "lint-staged",
   "lint-staged": {
-    "*.js": [
-      "yarn lint:fix",
-      "git add"
-    ]
+    "linters": {
+      "*.{js}": ["yarn lint:fix", "git add"]
+    },
+    "ignore": ["**/pages/*"]
   },
   "standard": {
     "parser": "babel-eslint",

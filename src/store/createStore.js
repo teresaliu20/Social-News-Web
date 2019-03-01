@@ -37,7 +37,7 @@ function createMiddlewares() {
 
 function immutableChildren(obj) {
   const state = {};
-  Object.keys(obj).foreach((key) => {
+  Object.keys(obj).forEach((key) => {
     state[key] = Immutable.fromJS(obj[key]);
   });
   return state;

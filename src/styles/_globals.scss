@@ -7,3 +7,9 @@ body {
 .text-sans-serif {
   font-family: $font-sans-serif;
 }
+
+.padded-section {
+  padding: 0 5%;
+  max-width: 800px;
+  margin: auto;
+}

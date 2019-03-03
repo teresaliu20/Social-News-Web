@@ -5,7 +5,12 @@
 }
 
 .layout {
-  max-width: 800px;
   margin: 0 auto;
+  padding: 40px 6%;
+}
+
+.padded-section {
   padding: 0 5%;
+  max-width: 800px;
+  margin: auto;
 }

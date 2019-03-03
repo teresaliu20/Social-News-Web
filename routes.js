@@ -8,6 +8,9 @@ const APP_ROUTES = [{
 }, {
   page: 'profile',
   pattern: '/profile',
+}, {
+  page: 'collection',
+  pattern: '/collection/:slug',
 }];
 
 APP_ROUTES.forEach((route) => routes.add(route));

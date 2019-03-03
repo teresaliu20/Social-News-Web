@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import styles from 'styles/Header.scss';
+import styles from 'styles/base.scss';
 
 class Home extends Component {
   render() {
     return (
-      <div>
-        <h1>Welcome to Paper!</h1>
-        <p className="text-sans-serif">We have alot to do.</p>
+      <div className="home-page">
+        <div className="padded-section">
+          <h1>Welcome to Paper!</h1>
+          <p className="text-sans-serif">We have alot to do.</p>
+        </div>
         <style jsx>{styles}</style>
       </div>
     );

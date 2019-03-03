@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styles from 'styles/Collection.scss';
+import CollectionCard from '../components/CollectionCard';
 
 // TODO: take this out later when not hardcoded
 const collection = {
@@ -29,6 +30,20 @@ const collection = {
   ],
 };
 
+const relatedCollections = [
+  {
+    relationName: 'explained by',
+    title: 'first collection',
+    description: 'wow what a cool collection!',
+  },
+  {
+    relationName: 'explained by',
+    title: 'second collection',
+    description: 'wow what a cool collection!',
+  },
+];
+
+
 class Collection extends Component {
   render() {
     // const { collection } = this.props;
@@ -45,6 +60,18 @@ class Collection extends Component {
                 <p>{linkObj.description}</p>
                 <a href={linkObj.link}>{linkObj.link}</a>
               </div>
+            ))
+          }
+          </div>
+          <h3>Related Collections</h3>
+          <div className="collection-section">
+            {
+            relatedCollections.map((relatedCollection) => (
+              <CollectionCard
+                relation={relatedCollection.relationName}
+                title={relatedCollection.title}
+                description={relatedCollection.description}
+              />
             ))
           }
           </div>

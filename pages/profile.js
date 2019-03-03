@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
+import Router from 'next/router';
 import styles from 'styles/Profile.scss';
 import CollectionCard from '../src/components/CollectionCard';
 import { connect } from 'react-redux'
@@ -7,7 +8,6 @@ import Types from '../src/actions/index';
 
 class Profile extends React.Component {
   static async getInitialProps({store, isServer, pathname, query}) {
-    store.dispatch({type: Types.GET_USER}); // component will be able to read from store's state when rendered
   }
 
   handleCollectionCardClick = () => {
@@ -34,7 +34,7 @@ class Profile extends React.Component {
       <div className="profile-page">
         <div className="padded-section">
           <h1>Welcome to Paper!</h1>
-          <p className="text-sans-serif">This is your profile.</p>
+          <p className="text-sans-serif">This is your profile!</p>
         </div>
         <div className="collection-section">
           {
@@ -52,4 +52,10 @@ class Profile extends React.Component {
   }
 }
 
-export default connect()(Profile);
+
+const mapStateToProps = (state) => ({
+  globals: state,
+});
+
+export default connect(mapStateToProps)(Profile);
+

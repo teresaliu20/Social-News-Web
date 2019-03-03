@@ -3,7 +3,7 @@ import Types from './index';
 
 export const loginAction = (username, password) => {
   return async (dispatch) => {
-    const url = 'http://127.0.0.1:8000/users/login';
+    const url = 'http://127.0.0.1:8000/api/login';
     axios.post(url, {
       username,
       password,
@@ -25,7 +25,7 @@ export const loginAction = (username, password) => {
 
 export const signupAction = (signupInfo) => {
   return async (dispatch) => {
-    const url = 'http://127.0.0.1:8000/users/signup';
+    const url = 'http://127.0.0.1:8000/api/signup';
 
     axios.post(url, {
       username: signupInfo.username,
@@ -43,6 +43,27 @@ export const signupAction = (signupInfo) => {
       .catch((error) => {
         dispatch({
           type: Types.SIGNUP_FAILURE,
+          error,
+        });
+      });
+  };
+};
+
+export const logoutAction = (username, password) => {
+  return async (dispatch) => {
+    const url = 'http://127.0.0.1:8000/api/logout';
+    axios.post(url, {
+      username,
+      password,
+    })
+      .then((res) => {
+        dispatch({
+          type: Types.LOGOUT_SUCCESS,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: Types.LOGOUT_FAILURE,
           error,
         });
       });

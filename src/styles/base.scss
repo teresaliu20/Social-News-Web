@@ -1,4 +1,55 @@
 @import "~normalize-scss/sass/normalize/import-now";
 @import "colors";
 @import "fonts";
-@import "globals";
+
+.body {
+  font-family: $font-serif, Helvetica;
+}
+
+/* layouts and spacing */
+.layout {
+  margin: 0 auto;
+  padding: 40px 6%;
+}
+
+.padded-section {
+  padding: 0 5%;
+  max-width: 800px;
+  margin: auto;
+}
+
+/* text styles */
+
+.text-sans-serif {
+  font-family: $font-sans-serif;
+}
+
+.form-input {
+  padding: 14px 0;
+  border: none;
+  display: block;
+  margin: 20px 0;
+  border-bottom: 2px solid $lightGray;
+  font-family: $font-sans-serif;
+  font-size: 18px;
+  width: 100%;
+  &:focus {
+    outline: none;
+  }
+}
+
+.form-button-group {
+  margin: 20px 0;
+}
+
+.form-button-outline {
+  border: 1px solid $mediumGray;
+  width: 100%;
+  border-radius: 4px;
+  padding: 15px;
+  margin: 10px 0;
+  font-family: $font-sans-serif;
+  &:hover {
+    border-color: darken($mediumGray, 80%)
+  }
+}

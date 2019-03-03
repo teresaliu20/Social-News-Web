@@ -11,6 +11,12 @@ const APP_ROUTES = [{
 }, {
   page: 'collection',
   pattern: '/collection/:slug',
+}, {
+  page: 'login',
+  pattern: '/login',
+}, {
+  page: 'signup',
+  pattern: '/signup',
 }];
 
 APP_ROUTES.forEach((route) => routes.add(route));

@@ -8,6 +8,16 @@ const Header = () => (
       <h3>Paper</h3>
     </Link>
     <menu className="menu">
+      <Link href="/login">
+        <div className="menu-item">
+          <a>Login</a>
+        </div>
+      </Link>
+      <Link href="/signup">
+        <div className="menu-item">
+          <a>Signup</a>
+        </div>
+      </Link>
       <Link href="/profile">
         <div className="menu-item">
           <a>Profile</a>

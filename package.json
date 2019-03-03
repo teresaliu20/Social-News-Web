@@ -8,6 +8,7 @@
     "helmet": "^3.12.1",
     "humps": "^2.0.1",
     "immutable": "^3.8.2",
+    "lodash": "^4.17.11",
     "next": "^8.0.1",
     "next-redux-wrapper": "^2.1.0",
     "next-routes": "^1.4.2",
@@ -87,7 +88,8 @@
     },
     "setupFilesAfterEnv": [
       "<rootDir>/src/test/jest.setup.js"
-    ]
+    ],
+    "testEnvironment": "node"
   },
   "repository": "CodementorIO/nextjs-redux-starter",
   "bugs": "https://github.com/CodementorIO/nextjs-redux-starter/issues",

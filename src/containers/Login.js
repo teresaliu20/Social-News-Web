@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import styles from 'styles/auth.scss';
 import { loginAction } from '../actions/auth';
 
-
 class Login extends Component {
   state = {
     username: '',

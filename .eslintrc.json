@@ -36,6 +36,7 @@
         "props": false
       }
     ],
+    "no-underscore-dangle": ["error", { "allow": ["__persistor"] }],
     "no-plusplus": "off",
     "no-prototype-builtins": "warn",
     "no-restricted-globals": "off",

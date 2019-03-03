@@ -3,7 +3,8 @@ import { withRouter } from 'next/router';
 import { Provider } from 'react-redux';
 import App, { Container } from 'next/app';
 import Layout from 'components/Layout';
-import createStore from 'store/createStore';
+import {createPersistStore} from 'store/createPersistStore';
+import {PersistGate} from 'redux-persist/integration/react';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -19,15 +20,17 @@ class MyApp extends App {
     return (
       <Container>
         <Provider store={store}>
-          <Layout>
-            <Component router={router} {...pageProps} />
-          </Layout>
+          <PersistGate persistor={store.__persistor} loading={<div>Loading</div>}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </PersistGate>
         </Provider>
       </Container>
     );
   }
 }
 
-export default withRedux(createStore)(
-  withRouter(MyApp)
+export default withRedux(createPersistStore, { debug: true })(
+  MyApp
 );

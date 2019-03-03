@@ -10,6 +10,11 @@ const user = (state = null, action) => {
       return action.user;
     case Types.SIGNUP_FAILURE:
       return null;
+    case 'persist/REHYDRATE':
+      if (action.payload.user) {
+        return action.payload.user;
+      }
+      return state;
     default:
       return state;
   }

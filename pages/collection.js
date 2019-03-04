@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from 'styles/Collection.scss';
 import axios from 'axios';
+import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CollectionCard from '../src/components/CollectionCard';
@@ -46,18 +47,26 @@ class Collection extends Component {
   render() {
     const { collection, links, relatedCollections } = this.props;
     const { user } = this.props.globals;
-    const {openRelateCollectionForm, relatedCollectionButtonText } = this.state;
+    const { openRelateCollectionForm, relatedCollectionButtonText } = this.state;
 
     const isOwnCollection = collection.owner === user.id;
 
     return (
       <div className="collection-page">
         <div className="padded-section">
+          {
+            isOwnCollection &&
+            <Link
+              prefetch href={`/edit-collection?id=${collection.id}`}>
+              <button className="form-button-outline corner-button">Edit Collection</button>
+            </Link>
+          }
           <h1>{collection.name}</h1>
           <p className="text-sans-serif">{collection.description}</p>
           <div className="links-section">
             <LinksSection links={links} />
           </div>
+          <hr className="hr"/>
           <h3>Related Collections</h3>
           <div className="collection-section">
             {

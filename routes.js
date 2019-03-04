@@ -23,6 +23,9 @@ const APP_ROUTES = [{
 }, {
   page: 'create-collection',
   pattern: '/create-collection',
+}, {
+  page: 'edit-collection',
+  pattern: '/edit-collection/:id',
 }];
 
 APP_ROUTES.forEach((route) => routes.add(route));

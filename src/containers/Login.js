@@ -40,6 +40,7 @@ class Login extends Component {
         />
         <input
           value={password}
+          type="password"
           placeholder="Enter your password"
           className="form-input"
           onChange={(event) => this.setState({ password: event.target.value })}

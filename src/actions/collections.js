@@ -45,3 +45,28 @@ export const createNewCollectionAction = (name, userId, description, links) => {
       });
   };
 };
+
+export const editCollectionAction = (name, userId, description, links, collectionId) => {
+  return async (dispatch) => {
+    const url = 'http://127.0.0.1:8000/api/collections/edit';
+    axios.post(url, {
+      name,
+      user_id: userId,
+      description,
+      links,
+      collection_id: collectionId,
+    })
+      .then((res) => {
+        dispatch({
+          type: Types.EDIT_COLLECTIONS_SUCCESS,
+          collection: res.data.collectionInfo,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: Types.EDIT_COLLECTIONS_FAILURE,
+          error,
+        });
+      });
+  };
+};

@@ -8,6 +8,21 @@ const collections = (state = [], action) => {
       return state;
     case Types.POST_COLLECTIONS_SUCCESS:
       return [...state, action.collection];
+    case Types.EDIT_COLLECTIONS_SUCCESS:
+
+      const updatedCollections = [...state];
+
+      const oldCollectionIndex = updatedCollections.findIndex((collection) => {
+        return collection.id === action.collection.id;
+      });
+
+      updatedCollections.splice(oldCollectionIndex, 1, action.collection);
+
+      console.log(updatedCollections);
+      return updatedCollections;
+
+    case Types.EDIT_COLLECTIONS_FAILURE:
+      return state;
     case Types.POST_COLLECTIONS_FAILURE:
       return state;
     default:

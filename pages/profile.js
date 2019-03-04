@@ -34,7 +34,7 @@ class Profile extends React.Component {
           <p className="text-sans-serif">This is your profile! Put in bio here.</p>
         </div>
         <div className="collections-section padded-section form-with-corner-button">
-          <h3>Collections</h3>
+          <h2>Collections</h2>
           
           <Link
             prefetch href="/create-collection">

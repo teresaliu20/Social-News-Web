@@ -18,6 +18,14 @@
   margin: auto;
 }
 
+.hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid $lightGray;
+  margin-top: 30px;
+  padding-bottom: 20px;
+}
+
 /* text styles */
 
 .text-sans-serif {
@@ -56,6 +64,19 @@
   }
 }
 
+.form-select-wrapper {
+  margin-top: 20px;
+  position: relative;
+}
+
+.form-select {
+}
+
+.form-select-label {
+  width: 30%;
+  float: left;
+}
+
 .form-button-group {
   margin: 20px 0;
 }
@@ -64,7 +85,7 @@
   margin: 20px 0;
   button {
     flex: 1;
-    width: 200px;
+    width: fit-content;
     margin-right: 15px;
   }
 }
@@ -98,6 +119,5 @@
 
 .collection-section {
   display: flex;
-  justify-content: center;
   flex-flow: row wrap;
 }

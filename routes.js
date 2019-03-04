@@ -7,7 +7,7 @@ const APP_ROUTES = [{
   pattern: '/',
 }, {
   page: 'profile',
-  pattern: '/profile',
+  pattern: '/profile/:id',
 }, {
   page: 'collection',
   pattern: '/collection/:id',
@@ -17,6 +17,9 @@ const APP_ROUTES = [{
 }, {
   page: 'signup',
   pattern: '/signup',
+}, {
+  page: 'search',
+  pattern: '/search',
 }, {
   page: 'create-collection',
   pattern: '/create-collection',

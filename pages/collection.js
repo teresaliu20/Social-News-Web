@@ -15,8 +15,8 @@ class Collection extends Component {
     let links = [];
     let relatedCollections = [];
 
-    const collectionsUrl = `http://127.0.0.1:8000/api/collections/${query.id}`;
-    const collectionResp = await axios.get(collectionsUrl);
+    const collectionUrl = `http://127.0.0.1:8000/api/collections/${query.id}`;
+    const collectionResp = await axios.get(collectionUrl);
 
     if (collectionResp.status === 200) {
       collection = collectionResp.data.collectionInfo;

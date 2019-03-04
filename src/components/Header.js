@@ -26,6 +26,11 @@ class Header extends React.Component {
                 <a>Profile</a>
               </div>
             </Link>
+            <Link href="/search">
+              <div className="menu-item">
+                <a>Search</a>
+              </div>
+            </Link>
             <div
               className="menu-item"
               onClick={this.handleLogout}

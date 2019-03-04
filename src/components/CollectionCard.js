@@ -3,12 +3,12 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import styles from 'styles/CollectionCard.scss';
 
-const CollectionCard = ({ title, description, relation }) => (
-  <Link href={`/collection?slug=${title}`}>
+const CollectionCard = ({ name, description, relation }) => (
+  <Link href={`/collection?slug=${name}`}>
     <div className="collection-card">
       <p className="text-sans-serif text-italic">{relation}</p>
       <h2>
-        {title}
+        {name}
       </h2>
       <p>
         {description}
@@ -19,7 +19,7 @@ const CollectionCard = ({ title, description, relation }) => (
 );
 
 CollectionCard.propTypes = {
-  title: PropTypes.string,
+  name: PropTypes.string,
   description: PropTypes.string,
   relation: PropTypes.string,
 };

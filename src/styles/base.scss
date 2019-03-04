@@ -59,6 +59,7 @@
 }
 
 .collection-section {
-    display: flex;
-    flex-flow: row wrap;
-  }
+  display: flex;
+  justify-content: center;
+  flex-flow: row wrap;
+}

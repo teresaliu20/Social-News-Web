@@ -11,7 +11,7 @@ export const loginAction = (username, password) => {
       .then((res) => {
         dispatch({
           type: Types.LOGIN_SUCCESS,
-          user: res,
+          user: res.data,
         });
       })
       .catch((error) => {
@@ -37,7 +37,7 @@ export const signupAction = (signupInfo) => {
       .then((res) => {
         dispatch({
           type: Types.SIGNUP_SUCCESS,
-          user: res,
+          user: res.data,
         });
       })
       .catch((error) => {

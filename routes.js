@@ -10,7 +10,7 @@ const APP_ROUTES = [{
   pattern: '/profile',
 }, {
   page: 'collection',
-  pattern: '/collection/:slug',
+  pattern: '/collection/:id',
 }, {
   page: 'login',
   pattern: '/login',

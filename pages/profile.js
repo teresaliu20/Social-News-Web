@@ -36,8 +36,7 @@ class Profile extends React.Component {
           {
             collections ? collections.map((collection) => {
               return <CollectionCard
-                name={collection.name}
-                description={collection.description}
+                collection={collection}
               />
             })
             : <div>Loading collections</div>
@@ -62,7 +61,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getCollections: (userid) => dispatch(getCollectionsAction(userid)),
+    getCollections: (userId) => dispatch(getCollectionsAction(userId)),
   };
 };
 

@@ -21,3 +21,27 @@ export const getCollectionsAction = (userId) => {
       });
   };
 };
+
+export const createNewCollectionAction = (name, userId, description, links) => {
+  return async (dispatch) => {
+    const url = 'http://127.0.0.1:8000/api/collections';
+    axios.post(url, {
+      name,
+      user_id: userId,
+      description,
+      links,
+    })
+      .then((res) => {
+        dispatch({
+          type: Types.POST_COLLECTIONS_SUCCESS,
+          collection: res.data.collectionInfo,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: Types.POST_COLLECTIONS_FAILURE,
+          error,
+        });
+      });
+  };
+};

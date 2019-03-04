@@ -15,7 +15,7 @@ const user = (state = null, action) => {
     case Types.LOGOUT_FAILURE:
       return null;
     case 'persist/REHYDRATE':
-      if (action.payload.user) {
+      if (action.payload && action.payload.user) {
         return action.payload.user;
       }
       return state;

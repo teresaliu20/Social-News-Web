@@ -4,6 +4,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CollectionCard from '../src/components/CollectionCard';
+import LinksSection from '../src/components/LinksSection';
 
 const relatedCollections = [
   {
@@ -24,12 +25,14 @@ class Collection extends Component {
     if (!query.id) return;
     const url = `http://127.0.0.1:8000/api/collections/${query.id}`;
     const collectionResp = await axios.get(url);
-    console.log('in initial props', collectionResp.data.collectionInfo);
-    return { collection: collectionResp.data.collectionInfo };
+    return {
+      collection: collectionResp.data.collectionInfo,
+      links: collectionResp.data.links,
+    };
   }
 
   render() {
-    const { collection } = this.props;
+    const { collection, links } = this.props;
 
     return (
       <div className="collection-page">
@@ -37,15 +40,7 @@ class Collection extends Component {
           <h1>{collection.name}</h1>
           <p className="text-sans-serif">{collection.description}</p>
           <div className="links-section">
-            {
-            collection.links ? collection.links.map((linkObj) => (
-              <div className="link">
-                <p>{linkObj.description}</p>
-                <a href={linkObj.link}>{linkObj.link}</a>
-              </div>
-            ))
-              : <div>No links right now :( </div>
-          }
+            <LinksSection links={links} />
           </div>
           <h3>Related Collections</h3>
           <div className="collection-section">

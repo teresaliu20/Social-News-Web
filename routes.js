@@ -17,6 +17,9 @@ const APP_ROUTES = [{
 }, {
   page: 'signup',
   pattern: '/signup',
+}, {
+  page: 'create-collection',
+  pattern: '/create-collection',
 }];
 
 APP_ROUTES.forEach((route) => routes.add(route));

@@ -21,6 +21,7 @@ class Profile extends React.Component {
     }
   }
 
+
   render() {
 
     const {collections, user} = this.props.globals;
@@ -31,6 +32,14 @@ class Profile extends React.Component {
         <div className="padded-section">
           <h1>{`${first_name} ${last_name}`}</h1>
           <p className="text-sans-serif">This is your profile! Put in bio here.</p>
+        </div>
+        <div className="collections-section padded-section form-with-corner-button">
+          <h3>Collections</h3>
+          
+          <Link
+            prefetch href="/create-collection">
+            <button className="form-button-outline">Create New Collection</button>
+          </Link>
         </div>
         <div className="collection-section">
           {

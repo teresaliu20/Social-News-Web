@@ -3,7 +3,9 @@ import styles from 'styles/Collection.scss';
 import axios from 'axios';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 import { connect } from 'react-redux';
+import shortid from 'shortid';
 import CollectionCard from '../src/components/CollectionCard';
 import LinksSection from '../src/components/LinksSection';
 import RelateCollectionForm from '../src/components/RelateCollectionForm';
@@ -72,6 +74,7 @@ class Collection extends Component {
             {
             relatedCollections.map((relatedCollection) => (
               <CollectionCard
+                key={shortid.generate()}
                 relation={relatedCollection.relationship}
                 approved={relatedCollection.approved}
                 collection={relatedCollection.collectionInfo}

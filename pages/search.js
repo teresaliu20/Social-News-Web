@@ -42,7 +42,7 @@ class Collection extends Component {
 
   render() {
     const { searchQuery, searchResults } = this.state;
-    console.log("renderig", searchResults)
+    
     return (
       <div className="search-page">
         <div className="padded-section">
@@ -56,7 +56,7 @@ class Collection extends Component {
           <div className="search-results">
           {
             searchResults.map(result => (
-              <Link href={`/profile?id=${result.id}`}>
+              <Link href={`/profile?id=${result.id}`} key={result.id}>
                 <div className="result-item">
                   <h3>{`${result.first_name} ${result.last_name}`}</h3>
                   <p>{result.username}</p>

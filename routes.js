@@ -7,16 +7,25 @@ const APP_ROUTES = [{
   pattern: '/',
 }, {
   page: 'profile',
-  pattern: '/profile',
+  pattern: '/profile/:id',
 }, {
   page: 'collection',
-  pattern: '/collection/:slug',
+  pattern: '/collection/:id',
 }, {
   page: 'login',
   pattern: '/login',
 }, {
   page: 'signup',
   pattern: '/signup',
+}, {
+  page: 'search',
+  pattern: '/search',
+}, {
+  page: 'create-collection',
+  pattern: '/create-collection',
+}, {
+  page: 'edit-collection',
+  pattern: '/edit-collection/:id',
 }];
 
 APP_ROUTES.forEach((route) => routes.add(route));

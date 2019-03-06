@@ -6,4 +6,8 @@
   margin: 15px 30px 15px 0;
   min-width: 250px;
   width: 25%;
+  border-radius: 2px;
+  &:hover {
+    border: 1px solid darken(#ddd, 15%);
+  }
 }

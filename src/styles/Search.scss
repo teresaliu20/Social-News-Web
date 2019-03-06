@@ -1,0 +1,12 @@
+@import "base";
+
+.search-page {
+  max-width: 800px;
+  margin: auto;
+  .result-item {
+    border-radius: 2px;
+    border: 1px solid #ddd;
+    padding: 0 20px;
+    margin-top: 20px;
+  }
+}

@@ -3,9 +3,14 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styles from 'styles/Header.scss';
-
+import { logoutAction } from '../actions/auth';
 
 class Header extends React.Component {
+  handleLogout = () => {
+    const { logout } = this.props;
+    logout();
+  }
+
   render() {
     const { globals } = this.props;
 
@@ -21,6 +26,17 @@ class Header extends React.Component {
                 <a>Profile</a>
               </div>
             </Link>
+            <Link href="/search">
+              <div className="menu-item">
+                <a>Search</a>
+              </div>
+            </Link>
+            <div
+              className="menu-item"
+              onClick={this.handleLogout}
+            >
+              <a>Logout</a>
+            </div>
           </div>
           <style jsx>{styles}</style>
         </header>
@@ -52,11 +68,17 @@ class Header extends React.Component {
 
 Header.propTypes = {
   globals: PropTypes.object,
+  logout: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   globals: state,
 });
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logoutAction()),
+  };
+};
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

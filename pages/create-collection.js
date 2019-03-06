@@ -4,6 +4,7 @@ import Router from 'next/router';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import shortid from 'shortid';
 import styles from '../src/styles/CreateCollectionForm.scss';
 import { createNewCollectionAction } from '../src/actions/collections';
 
@@ -69,7 +70,7 @@ class CreateCollectionForm extends Component {
         />
         {
           links && links.length ? links.map((link) => (
-            <div className="link">
+            <div className="link" key={shortid.generate()}>
               <p className="text-sans-serif">&bull;&nbsp;&nbsp;<a href={link}>{link}</a></p>
             </div>
           ))

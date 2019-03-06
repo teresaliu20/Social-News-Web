@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import shortid from 'shortid';
 import styles from 'styles/LinksSection.scss';
 import MicrolinkCard from '@microlink/react';
 import validURL from '../helpers/validUrlHelper';
@@ -9,9 +10,8 @@ const LinksSection = ({ links }) => (
   <div className="links-section">
     {
     links && links.length ? links.map((link) => {
-      console.log(validURL(link.url));
       return (
-        <div className="link" key={link.id}>
+        <div className="link" key={shortid.generate()}>
 
           {
           validURL(link.url)

@@ -12,22 +12,13 @@ const LinksSection = ({ links }) => (
     links && links.length ? links.map((link) => {
       return (
         <div className="link" key={shortid.generate()}>
-
           {
-          validURL(link.url)
-            ? (
-              <MicrolinkCard
-                link={link.url}
-              />
+            validURL(link.url) && (
+            <MicrolinkCard
+              url={link.url}
+            />
             )
-            : (
-              <p className="text-sans-serif">
-
-&bull;&nbsp;&nbsp;
-                <a href={link.url}>{link.url}</a>
-              </p>
-            )}
-
+          }
         </div>
       );
     })

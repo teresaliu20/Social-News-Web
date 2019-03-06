@@ -9,6 +9,7 @@ module.exports = {
     config.output.publicPath = `${assetPrefix}${config.output.publicPath}`;
 
     if (ANALYZE) {
+      /* eslint-disable global-require */
       const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
       config.plugins.push(new BundleAnalyzerPlugin({
         analyzerMode: 'server',
@@ -30,6 +31,10 @@ module.exports = {
         loader: 'sass-loader',
         options: { sourceMap: dev },
       }],
+    },
+    {
+      test: /\.(png|jpg)$/,
+      loader: 'url-loader?limit=8192',
     });
 
     return config;

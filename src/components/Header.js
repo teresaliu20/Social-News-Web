@@ -18,7 +18,9 @@ class Header extends React.Component {
       return (
         <header className="header">
           <Link href="/">
-            <h3>Paper</h3>
+            <div className="logo-wrapper">
+              <img src="static/puzzles.png" className="logo" alt="puzzle" />
+            </div>
           </Link>
           <div className="menu">
             <Link href="/profile">
@@ -45,7 +47,9 @@ class Header extends React.Component {
     return (
       <header className="header">
         <Link href="/">
-          <h3>Paper</h3>
+          <div>
+            <img src="static/puzzles.png" className="logo" alt="puzzle" />
+          </div>
         </Link>
         <div className="menu">
           <Link href="/login">

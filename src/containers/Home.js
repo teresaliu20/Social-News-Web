@@ -6,6 +6,7 @@ class Home extends Component {
     return (
       <div className="home-page">
         <div className="padded-section">
+          <img src="static/puzzles.png" className="logo" alt="puzzle" />
           <h1>Welcome to Paper!</h1>
           <p className="text-sans-serif">We have alot to do.</p>
         </div>

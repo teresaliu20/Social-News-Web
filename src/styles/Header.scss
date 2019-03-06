@@ -18,6 +18,16 @@
   }
 }
 
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  color: black;
+}
+.logo {
+  height: 35px;
+  margin: 15px;
+}
+
 .padded-section {
   padding: 0 5%;
   max-width: 800px;

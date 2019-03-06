@@ -53,6 +53,7 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
+    
     const {id} = this.props.globals.user;
 
     if (id) {
@@ -62,7 +63,7 @@ class Profile extends React.Component {
 
 
   render() {
-
+    
     const { isOwnProfile } = this.props;
 
     // set collections and user to the current logged in user by default
@@ -100,6 +101,7 @@ class Profile extends React.Component {
           {
             collections ? collections.map((collection) => {
               return <CollectionCard
+                key={collection.id}
                 collection={collection}
               />
             })

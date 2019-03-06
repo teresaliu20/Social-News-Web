@@ -25,6 +25,7 @@
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "sass-loader": "^7.1.0",
+    "shortid": "^2.2.14",
     "styled-jsx-css-loader": "^0.3.0"
   },
   "name": "nextjs-redux-starter",

@@ -5,6 +5,8 @@ import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
+import Input from '../src/components/Input';
+import Textarea from '../src/components/Textarea';
 import styles from '../src/styles/CreateCollectionForm.scss';
 import { createNewCollectionAction } from '../src/actions/collections';
 
@@ -38,19 +40,20 @@ class CreateCollectionForm extends Component {
     return (
       <div className="create-collection-page">
         <h1>Write New Collection</h1>
-        <input
+        <Input
+          label="Title"
           value={name}
           placeholder="Collection Title"
           className="form-input"
           onChange={(event) => this.setState({ name: event.target.value })}
         />
-        <textarea
+        <Textarea
+          label="Description"
           value={description}
           placeholder="Type description of collection"
           className="form-textarea"
           onChange={(event) => this.setState({ description: event.target.value })}
-        >
-        </textarea>
+        />
         <div className="form-with-corner-button">
           <h3>Links</h3>
           <button
@@ -62,7 +65,7 @@ class CreateCollectionForm extends Component {
           </button>
         </div>
         <div className="links-section">
-        <input
+        <Input
           value={linkInput}
           placeholder="Enter link"
           className="form-input"

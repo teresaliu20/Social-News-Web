@@ -17,8 +17,6 @@ const collections = (state = [], action) => {
       });
 
       updatedCollections.splice(oldCollectionIndex, 1, action.collection);
-
-      console.log(updatedCollections);
       return updatedCollections;
 
     case Types.EDIT_COLLECTIONS_FAILURE:

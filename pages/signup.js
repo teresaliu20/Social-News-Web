@@ -5,6 +5,7 @@ import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styles from '../src/styles/auth.scss';
+import Input from '../src/components/Input';
 import { signupAction } from '../src/actions/auth';
 
 
@@ -48,41 +49,49 @@ class Signup extends Component {
       <div className="login-page">
         <h1>Signup</h1>
         <p className="error-text">{error}</p>
-        <input
+        <Input
+          label="First name"
           className="form-input"
           onChange={(event) => this.setState({ firstName: event.target.value })}
           value={firstName}
           placeholder="Enter your first name"
         />
-        <input
+        <Input
+          label="Last name"
           className="form-input"
           onChange={(event) => this.setState({ lastName: event.target.value })}
           value={lastName}
           placeholder="Enter your last name"
         />
-        <input
+        <Input
+          label="Username"
           className="form-input"
           onChange={(event) => this.setState({ username: event.target.value })}
           value={username}
           placeholder="Enter your username"
         />
-        <input
-          className="form-input"
-          onChange={(event) => this.setState({ password: event.target.value })}
-          value={password}
-          placeholder="Enter your password"
-        />
-        <input
-          className="form-input"
-          onChange={(event) => this.setState({ repeatPassword: event.target.value })}
-          value={repeatPassword}
-          placeholder="Repeat your password"
-        />
-        <input
+        <Input
+          label="Email"
           className="form-input"
           onChange={(event) => this.setState({ email: event.target.value })}
           value={email}
           placeholder="Enter your email"
+        />
+        <Input
+          label="Password"
+          className="form-input"
+          type="password"
+          onChange={(event) => this.setState({ password: event.target.value })}
+          value={password}
+          placeholder="Enter your password"
+        />
+        <Input
+          label="Repeat Password"
+          className="form-input"
+          type="password"
+          onChange={(event) => this.setState({ repeatPassword: event.target.value })}
+          value={repeatPassword}
+          placeholder="Repeat your password"
         />
         <div className="form-button-group">
           <button

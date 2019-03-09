@@ -26,6 +26,9 @@ const APP_ROUTES = [{
 }, {
   page: 'edit-collection',
   pattern: '/edit-collection/:id',
+}, {
+  page: 'edit-profile',
+  pattern: '/edit-profile',
 }];
 
 APP_ROUTES.forEach((route) => routes.add(route));

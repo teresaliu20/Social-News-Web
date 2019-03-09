@@ -5,6 +5,7 @@ import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styles from '../src/styles/auth.scss';
+import Input from '../src/components/Input';
 import { loginAction } from '../src/actions/auth';
 
 class Login extends Component {
@@ -32,13 +33,15 @@ class Login extends Component {
     return (
       <div className="login-page">
         <h1>Login</h1>
-        <input
+        <Input
+          label="Username"
           value={username}
           placeholder="Enter your username"
           className="form-input"
           onChange={(event) => this.setState({ username: event.target.value })}
         />
-        <input
+        <Input
+          label="Password"
           value={password}
           type="password"
           placeholder="Enter your password"

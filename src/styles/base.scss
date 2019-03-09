@@ -11,6 +11,9 @@ a {
 
 .body {
   font-family: $font-serif, Helvetica;
+  p {
+    line-height: 1.5em;
+  }
 }
 
 /* layouts and spacing */
@@ -26,6 +29,10 @@ a {
   position: relative;
 }
 
+.thin-section {
+  max-width: 700px;
+}
+
 .hr {
   border: 0;
   height: 0;
@@ -33,6 +40,7 @@ a {
   margin-top: 30px;
   padding-bottom: 20px;
 }
+
 
 /* text styles */
 
@@ -44,7 +52,40 @@ a {
   font-style: italic;
 }
 
+.highlight {
+  position: relative;
+  display: inline-block;
+}
+
+.highlight::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  background: $accentPrimary;
+  opacity: 0.4;
+  left: 0.3em;
+  top: 30%;
+  height: .7em;
+  z-index: -1;
+}
 /* form styles */
+
+.form-input-wrapper {
+  margin: 30px 0 20px 0;
+}
+
+.form-input-temp {
+  padding: 14px 0;
+  border: none;
+  display: block;
+  border-bottom: 2px solid $lightGray;
+  font-family: $font-sans-serif;
+  font-size: 18px;
+  width: 100%;
+  &:focus {
+    outline: none;
+  }
+}
 
 .form-input {
   padding: 14px 0;
@@ -60,6 +101,38 @@ a {
   }
 }
 
+.form-label {
+  font-family: $font-sans-serif;
+  color: $mediumGray;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  margin: 5px 0;
+}
+
+.form-textarea-wrapper {
+  margin: 20px 0;
+}
+
+.form-error {
+  color: $errorText;
+  font-family: $font-sans-serif;
+  letter-spacing: 0.03em;
+  margin: 5px 0;
+}
+
+.form-textarea-temp {
+  padding: 14px 10px;
+  font-family: $font-sans-serif;
+  border: 2px solid $lightGray;
+  font-size: 18px;
+  width: 100%;
+  height: 250px;
+  line-height: 1.5em;
+  &:focus {
+    outline: none;
+  }
+}
+
 .form-textarea {
   padding: 14px 10px;
   font-family: $font-sans-serif;
@@ -67,6 +140,7 @@ a {
   font-size: 18px;
   width: 100%;
   height: 250px;
+  line-height: 1.5em;
   &:focus {
     outline: none;
   }

@@ -80,10 +80,16 @@ class Profile extends React.Component {
 
     return (
       <div className="profile-page">
-        <div className="padded-section">
+        <div className="padded-section form-with-corner-button">
           <div className="profile-image-wrapper">
             <img className="profile-image" src="https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/46011115_1144893639011707_5262389549639663616_o.jpg?_nc_cat=104&_nc_ht=scontent-lax3-1.xx&oh=c722ca9556484c970297dbb977c2e7f0&oe=5D1423DE" />
           </div>
+          {
+            isOwnProfile && <Link
+                  prefetch href="/edit-profile">
+                  <button className="form-button-outline">Edit Profile</button>
+                </Link>
+          }
           <h1>{`${first_name} ${last_name}`}</h1>
           <p className="text-sans-serif">{bio}</p>
         </div>

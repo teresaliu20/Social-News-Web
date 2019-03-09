@@ -26,6 +26,7 @@ class RelateCollectionForm extends Component {
     const { globals } = this.props;
     const { collections } = globals;
     const collectionFromOptions = [];
+
     collections.forEach((collection) => {
       collectionFromOptions.push({
         value: collection.id,

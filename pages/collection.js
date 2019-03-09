@@ -4,6 +4,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
 import CollectionCard from '../src/components/CollectionCard';
@@ -52,6 +53,7 @@ class Collection extends Component {
     const { openRelateCollectionForm, relatedCollectionButtonText } = this.state;
 
     const isOwnCollection = collection.owner === user.id;
+    const dateCreated = moment(collection.created).format('MMM Do YY');
 
     return (
       <div className="collection-page">
@@ -64,6 +66,7 @@ class Collection extends Component {
             </Link>
           }
           <h1>{collection.name}</h1>
+          <p className="collection-date">{dateCreated}</p>
           <p className="text-sans-serif">{collection.description}</p>
           <div className="links-section">
             <LinksSection links={links} />

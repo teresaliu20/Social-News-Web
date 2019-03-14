@@ -9,6 +9,9 @@ import shortid from 'shortid';
 import Input from '../src/components/Input';
 import LinksSection from '../src/components/LinksSection';
 import RelateCollectionForm from '../src/components/RelateCollectionForm';
+import config from '../src/config';
+
+const configOptions = config[process.env.NODE_ENV || 'development'];
 
 
 class ReadingList extends Component {
@@ -18,7 +21,7 @@ class ReadingList extends Component {
 
   componentWillMount = async () => {
     const { user } = this.props.globals;
-    const getReadingListUrl = `http://127.0.0.1:8000/api/users/${user.id}/reading-list`;
+    const getReadingListUrl = `${configOptions.hostname}/api/users/${user.id}/reading-list`;
     const readingListResp = await axios.get(getReadingListUrl);
 
     if (readingListResp.status === 200 && readingListResp.data) {
@@ -37,7 +40,7 @@ class ReadingList extends Component {
   handleAddLink = async () => {
     const { user } = this.props.globals;
     const { linkInput } = this.state;
-    const postReadingListUrl = 'http://127.0.0.1:8000/api/users/reading-list';
+    const postReadingListUrl = `${configOptions.hostname}/api/users/reading-list`;
     const postLinkResp = await axios.post(postReadingListUrl, {
       user_id: user.id,
       url: linkInput,
@@ -57,7 +60,7 @@ class ReadingList extends Component {
 
     const { user } = this.props.globals;
     const { linkInput } = this.state;
-    const postReadingListUrl = 'http://127.0.0.1:8000/api/users/reading-list';
+    const postReadingListUrl = `${configOptions.hostname}/api/users/reading-list`;
     const postLinkResp = await axios.delete(postReadingListUrl, {
       data: {
         link_id: linkId,

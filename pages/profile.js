@@ -8,6 +8,9 @@ import CollectionCard from '../src/components/CollectionCard';
 import { connect } from 'react-redux'
 import Types from '../src/actions/index';
 import { getCollectionsAction } from '../src/actions/collections';
+import config from '../src/config';
+
+const configOptions = config[process.env.NODE_ENV || 'development'];
 
 
 class Profile extends React.Component {
@@ -26,7 +29,7 @@ class Profile extends React.Component {
     let collections = []
 
     // with the query id, get the profile with the user id supplied
-    const profileUrl = `http://127.0.0.1:8000/api/users`;
+    const profileUrl = `${configOptions.hostname}/api/users`;
     const profileResp = await axios.post(profileUrl, {
       user_id,
       isLoggedInUser: false
@@ -36,7 +39,7 @@ class Profile extends React.Component {
       profile = profileResp.data;
 
       // if the profile exists, get collections using the user id from the profile
-      const getUserCollectionsUrl = `http://127.0.0.1:8000/api/users/${profile.id}/collections`;
+      const getUserCollectionsUrl = `${configOptions.hostname}/api/users/${profile.id}/collections`;
       const collectionsResp = await axios.get(getUserCollectionsUrl);
 
       if (collectionsResp.status === 200 && collectionsResp.data) {

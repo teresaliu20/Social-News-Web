@@ -4,6 +4,10 @@ import axios from 'axios';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import config from '../src/config';
+
+const configOptions = config[process.env.NODE_ENV || 'development'];
+
 
 class Collection extends Component {
   static async getInitialProps({ req, query }) {
@@ -26,7 +30,7 @@ class Collection extends Component {
     
 
     let searchResults = [];
-    const findUsersUrl = `http://127.0.0.1:8000/api/users/find`;
+    const findUsersUrl = `${configOptions.hostname}/api/users/find`;
     const findUsersReponse = await axios.post(findUsersUrl, {query});
 
     console.log(findUsersReponse)

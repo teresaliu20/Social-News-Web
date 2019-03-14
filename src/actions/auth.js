@@ -1,9 +1,12 @@
 import axios from 'axios';
 import Types from './index';
+import config from '../config';
+
+const configOptions = config[process.env.NODE_ENV || 'development'];
 
 export const loginAction = (username, password) => {
   return async (dispatch) => {
-    const url = 'http://127.0.0.1:8000/api/login';
+    const url = `${configOptions.hostname}/api/login`;
     axios.post(url, {
       username,
       password,
@@ -25,7 +28,7 @@ export const loginAction = (username, password) => {
 
 export const signupAction = (signupInfo) => {
   return async (dispatch) => {
-    const url = 'http://127.0.0.1:8000/api/signup';
+    const url = `${configOptions.hostname}/api/signup`;
 
     axios.post(url, {
       username: signupInfo.username,
@@ -51,7 +54,7 @@ export const signupAction = (signupInfo) => {
 
 export const logoutAction = (username, password) => {
   return async (dispatch) => {
-    const url = 'http://127.0.0.1:8000/api/logout';
+    const url = `${configOptions.hostname}/api/logout`;
     axios.post(url, {
       username,
       password,

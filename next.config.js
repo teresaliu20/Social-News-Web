@@ -4,6 +4,7 @@ const { ANALYZE, ASSET_HOST } = process.env;
 const assetPrefix = ASSET_HOST || '';
 
 module.exports = {
+  target: 'serverless',
   assetPrefix,
   webpack: (config, { dev }) => {
     config.output.publicPath = `${assetPrefix}${config.output.publicPath}`;

@@ -69,6 +69,7 @@
     "clean": "rimraf node_modules/.cache .next",
     "lint": "standard --verbose | snazzy",
     "now-start": "yarn serve",
+    "now-build": "NODE_ENV=production next build",
     "lint:fix": "eslint ./src --fix"
   },
   "pre-commit": "lint-staged",

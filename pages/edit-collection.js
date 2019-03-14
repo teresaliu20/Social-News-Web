@@ -10,6 +10,10 @@ import Input from '../src/components/Input';
 import Textarea from '../src/components/Textarea';
 import styles from '../src/styles/CreateCollectionForm.scss';
 import { editCollectionAction } from '../src/actions/collections';
+import config from '../src/config';
+
+const configOptions = config[process.env.NODE_ENV || 'development'];
+
 
 class EditCollectionForm extends Component {
 
@@ -20,7 +24,7 @@ class EditCollectionForm extends Component {
     let links = [];
     let relatedCollections = [];
 
-    const collectionUrl = `http://127.0.0.1:8000/api/collections/${query.id}`;
+    const collectionUrl = `${configOptions.hostname}/api/collections/${query.id}`;
     const collectionResp = await axios.get(collectionUrl);
 
     if (collectionResp.status === 200) {

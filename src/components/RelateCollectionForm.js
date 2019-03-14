@@ -7,7 +7,9 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { connect } from 'react-redux';
 import styles from 'styles/RelateCollectionForm.scss';
-// import { createNewCollectionAction } from '../src/actions/collections';
+import config from '../config';
+
+const configOptions = config[process.env.NODE_ENV || 'development'];
 
 const collectionRelationTypes = [
   { value: 'Subcategory', label: 'is a subcategory of' },
@@ -37,7 +39,7 @@ class RelateCollectionForm extends Component {
   }
 
   handleRelateCollectionSubmit = () => {
-    const url = 'http://127.0.0.1:8000/api/collections/relationship';
+    const url = `${configOptions.hostname}/api/collections/relationship`;
 
     const { collectionFromSelected, relationshipSelected } = this.state;
     const { collectionToObj } = this.props;

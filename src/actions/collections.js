@@ -1,11 +1,13 @@
 import axios from 'axios';
 import Types from './index';
+import config from '../config';
 
+const configOptions = config[process.env.NODE_ENV || 'development'];
 
 /* eslint-disable import/prefer-default-export */
 export const getCollectionsAction = (userId) => {
   return async (dispatch) => {
-    const url = `http://127.0.0.1:8000/api/users/${userId}/collections`;
+    const url = `${configOptions.hostname}/api/users/${userId}/collections`;
     axios.get(url)
       .then((res) => {
         dispatch({
@@ -24,7 +26,7 @@ export const getCollectionsAction = (userId) => {
 
 export const createNewCollectionAction = (name, userId, description, links) => {
   return async (dispatch) => {
-    const url = 'http://127.0.0.1:8000/api/collections';
+    const url = `${configOptions.hostname}/api/collections`;
     axios.post(url, {
       name,
       user_id: userId,
@@ -48,7 +50,7 @@ export const createNewCollectionAction = (name, userId, description, links) => {
 
 export const editCollectionAction = (name, userId, description, links, collectionId) => {
   return async (dispatch) => {
-    const url = 'http://127.0.0.1:8000/api/collections/edit';
+    const url = `${configOptions.hostname}/api/collections/edit`;
     axios.post(url, {
       name,
       user_id: userId,

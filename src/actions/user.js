@@ -1,9 +1,12 @@
 import axios from 'axios';
 import Types from './index';
+import config from '../config';
+
+const configOptions = config[process.env.NODE_ENV || 'development'];
 
 export const editProfileAction = (profileInfo) => {
   return async (dispatch) => {
-    const url = 'http://127.0.0.1:8000/api/users/edit';
+    const url = `${configOptions.hostname}/api/users/edit`;
 
     axios.post(url, {
       user_id: profileInfo.userId,

@@ -7,53 +7,132 @@ import { connect } from 'react-redux';
 import styles from '../src/styles/auth.scss';
 import Input from '../src/components/Input';
 import { signupAction } from '../src/actions/auth';
+import validEmail from '../src/helpers/validEmailHelper';
+import validPassword from '../src/helpers/validPasswordHelper';
 
+
+const initialErrors = {
+  general: '',
+  firstName: '',
+  lastName: '',
+  username: '',
+  password: '',
+  repeatPassword: '',
+  email: '',
+};
+
+const initialState = {
+  firstName: '',
+  lastName: '',
+  username: '',
+  password: '',
+  repeatPassword: '',
+  email: '',
+  errors: initialErrors,
+}
 
 class Signup extends Component {
-  state = {
-    firstName: '',
-    lastName: '',
-    username: '',
-    password: '',
-    repeatPassword: '',
-    email: '',
-    error: '',
-  }
+  state = initialState
 
   componentDidUpdate(prevProps) {
     const { globals } = this.props;
-    if (isEmpty(prevProps.globals.user) && !isEmpty(globals.user)) {
+    if (isEmpty(prevProps.globals.user.data) && !isEmpty(globals.user.data)) {
       Router.push('/profile');
+    }
+
+    else if (prevProps.globals.user.pending && !globals.user.pending && globals.user.error) {
+      const newErrors = { ...this.state.errors };
+      newErrors.general = globals.user.error;
+      this.setState({
+        errors: newErrors,
+      });
     }
   }
 
+  validateForm = () => {
+    const { firstName, lastName, username, password, repeatPassword, email, errors } = this.state;
 
-  handleSignupPress = () => {
-    const { password, repeatPassword } = this.state;
+    const newErrors = {...initialErrors};
 
-    if (password !== repeatPassword) {
-      this.setState({ error: 'Passwords do not match' });
-      return;
+    let isValidForm = true;
+
+    if (password != repeatPassword) {
+      newErrors.repeatPassword = 'Repeated password does not match original password'
+      isValidForm = false;
     }
 
-    this.setState({ error: '' });
+    if (username === '' || username.trim() === '') {
+      newErrors.username = 'Username cannot be blank';
+      isValidForm = false;
+    }
+    else if (username.length < 8) {
+      newErrors.username = 'Username must be at least 8 characters';
+      isValidForm = false;
+    }
 
+    if (firstName === '' || firstName.trim() === '') {
+      newErrors.firstName = 'First name cannot be blank';
+      isValidForm = false;
+    }
+
+    if (lastName === '' || lastName.trim() === '') {
+      newErrors.lastName = 'Last name cannot be blank';
+      isValidForm = false;
+    }
+
+    if (email === '' || email.trim() === '') {
+      newErrors.email = 'Email cannot be blank';
+      isValidForm = false;
+    }
+    else if (!validEmail(email)) {
+      newErrors.email = 'Email is not valid';
+      isValidForm = false;
+    }
+
+    if (password === '' || password.trim() === '') {
+      newErrors.password = 'Password cannot be blank';
+      isValidForm = false;
+    }
+    else if (!validPassword(password)) {
+      newErrors.password = 'Password must be at least 8 characters and include 1 numerical character';
+      isValidForm = false;
+    }
+
+    this.setState({
+      errors: newErrors,
+    });
+
+    return isValidForm;
+  }
+
+
+
+  handleSignupSubmit = () => {
     const { signup } = this.props;
-    signup(this.state);
+
+    const isValid = this.validateForm();
+
+    if (isValid) {
+      this.setState({
+        errors: {...initialErrors}
+      })
+      signup(this.state);
+    }
   }
 
 
   render() {
-    const { username, password, repeatPassword, email, firstName, lastName, error } = this.state;
+    const { username, password, repeatPassword, email, firstName, lastName, errors } = this.state;
     return (
       <div className="login-page">
         <h1>Signup</h1>
-        <p className="error-text">{error}</p>
+        <p className="form-error">{errors.general}</p>
         <Input
           label="First name"
           className="form-input"
           onChange={(event) => this.setState({ firstName: event.target.value })}
           value={firstName}
+          error={errors.firstName}
           placeholder="Enter your first name"
         />
         <Input
@@ -61,6 +140,7 @@ class Signup extends Component {
           className="form-input"
           onChange={(event) => this.setState({ lastName: event.target.value })}
           value={lastName}
+          error={errors.lastName}
           placeholder="Enter your last name"
         />
         <Input
@@ -68,6 +148,7 @@ class Signup extends Component {
           className="form-input"
           onChange={(event) => this.setState({ username: event.target.value })}
           value={username}
+          error={errors.username}
           placeholder="Enter your username"
         />
         <Input
@@ -75,6 +156,7 @@ class Signup extends Component {
           className="form-input"
           onChange={(event) => this.setState({ email: event.target.value })}
           value={email}
+          error={errors.email}
           placeholder="Enter your email"
         />
         <Input
@@ -83,6 +165,7 @@ class Signup extends Component {
           type="password"
           onChange={(event) => this.setState({ password: event.target.value })}
           value={password}
+          error={errors.password}
           placeholder="Enter your password"
         />
         <Input
@@ -91,13 +174,14 @@ class Signup extends Component {
           type="password"
           onChange={(event) => this.setState({ repeatPassword: event.target.value })}
           value={repeatPassword}
+          error={errors.repeatPassword}
           placeholder="Repeat your password"
         />
         <div className="form-button-group">
           <button
             type="submit"
             className="form-button-outline"
-            onClick={this.handleSignupPress}
+            onClick={this.handleSignupSubmit}
           >
           Signup
           </button>

@@ -26,7 +26,7 @@ export const editProfileAction = (profileInfo) => {
       .catch((error) => {
         dispatch({
           type: Types.EDIT_PROFILE_FAILURE,
-          error,
+          error: error.message,
         });
       });
   };

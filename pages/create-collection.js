@@ -18,10 +18,24 @@ class CreateCollectionForm extends Component {
     linkInput: '',
   }
 
+  componentDidUpdate(prevProps) {
+    const { globals } = this.props;
+    if (!isEmpty(prevProps.globals.user.data) && isEmpty(globals.user.data)) {
+      Router.push('/login');
+    }
+  }
+
+  componentDidMount() {
+    const { globals } = this.props;
+    if (!globals.user.data || isEmpty(globals.user.data)) {
+      Router.push('/login');
+    }
+  }
+
   handleCreateNewCollection = () => {
     const { user } = this.props.globals;
     const { name, description, links } = this.state;
-    this.props.createNewCollection(name, user.id, description, links);
+    this.props.createNewCollection(name, user.data.id, description, links);
     Router.push('/profile');
   }
 

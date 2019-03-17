@@ -4,7 +4,7 @@ export default {
   // backend api host
   development: {
     basename: '/',
-    hostname: 'http://127.0.0.1:3100',
+    hostname: 'http://127.0.0.1:8000',
   },
   production: {
     basename: '/',

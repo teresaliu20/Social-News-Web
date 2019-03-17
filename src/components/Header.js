@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { isEmpty } from 'lodash';
 import styles from 'styles/Header.scss';
 import { logoutAction } from '../actions/auth';
 
@@ -14,7 +15,7 @@ class Header extends React.Component {
   render() {
     const { globals } = this.props;
 
-    if (globals.user) {
+    if (!isEmpty(globals.user.data)) {
       return (
         <header className="header">
           <Link href="/">

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Router from 'next/router';
 import Link from 'next/link';
 import axios from 'axios';
+import { isEmpty } from 'lodash';
 import styles from '../src/styles/Profile.scss';
 import { connect } from 'react-redux';
 import Types from '../src/actions/index';
@@ -19,10 +20,21 @@ class EditProfile extends React.Component {
     email: ''
   }
 
+  componentDidUpdate(prevProps) {
+    const { globals } = this.props;
+    if (!isEmpty(prevProps.globals.user.data) && isEmpty(globals.user.data)) {
+      Router.push('/login');
+    }
+  }
+
   componentDidMount() {
+    const { globals } = this.props;
+    if (!globals.user.data || isEmpty(globals.user.data)) {
+      Router.push('/login');
+    }
     const { user } = this.props.globals;
 
-    const { first_name, last_name, email, bio } = user;
+    const { first_name, last_name, email, bio } = user.data;
     this.setState({
       firstName: first_name,
       lastName: last_name,
@@ -39,9 +51,9 @@ class EditProfile extends React.Component {
       lastName,
       email,
       bio,
-      userId: user.id,
-      username: user.username,
-      name: user.name,
+      userId: user.data.id,
+      username: user.data.username,
+      name: user.data.name,
     });
 
     Router.push('/profile');

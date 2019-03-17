@@ -37,7 +37,19 @@ class EditCollectionForm extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    const { globals } = this.props;
+    if (!isEmpty(prevProps.globals.user.data) && isEmpty(globals.user.data)) {
+      Router.push('/login');
+    }
+  }
+
   componentDidMount() {
+    const { globals } = this.props;
+    if (!globals.user.data || isEmpty(globals.user.data)) {
+      Router.push('/login');
+    }
+
     if (!isEmpty(this.props.collection)) {
       const {collection, links} = this.props;
       const linkUrls = links.map(link => link.url);
@@ -62,8 +74,8 @@ class EditCollectionForm extends Component {
   handleEditCollection = () => {
     const { user } = this.props.globals;
     const { name, description, links, collectionId } = this.state;
-    this.props.editCollection(name, user.id, description, links, collectionId );
-    Router.push('/profile');
+    this.props.editCollection(name, user.data.id, description, links, collectionId );
+    Router.back();
   }
 
   handleAddLink = () => {
@@ -73,7 +85,7 @@ class EditCollectionForm extends Component {
   }
 
   handleGoBack = () => {
-    Router.push('/profile');
+    Router.back();
   }
 
   render() {

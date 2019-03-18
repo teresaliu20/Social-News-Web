@@ -8,37 +8,88 @@ import styles from '../src/styles/auth.scss';
 import Input from '../src/components/Input';
 import { loginAction } from '../src/actions/auth';
 
+const initialErrors = {
+  general: '',
+  username: '',
+  password: '',
+};
+
+const initialState = {
+  username: '',
+  password: '',
+  errors: initialErrors,
+};
+
 class Login extends Component {
-  state = {
-    username: '',
-    password: '',
-  }
+  state = initialState
 
   componentDidUpdate(prevProps) {
     const { globals } = this.props;
-    if (isEmpty(prevProps.globals.user) && !isEmpty(globals.user)) {
+    if (isEmpty(prevProps.globals.user.data) && !isEmpty(globals.user.data)) {
       Router.push('/profile');
     }
+
+    else if (prevProps.globals.user.pending && !globals.user.pending && globals.user.error) {
+      const newErrors = { ...this.state.errors };
+      newErrors.general = globals.user.error;
+      this.setState({
+        errors: newErrors,
+      });
+    }
+  }
+
+  validateForm = () => {
+    const { username, password, errors } = this.state;
+
+    const newErrors = { ...errors };
+
+    let isValidForm = true;
+
+    if (username === '' || username.trim() === '') {
+      newErrors.username = 'Username cannot be blank';
+      isValidForm = false;
+    }
+
+    if (password === '' || password.trim() === '') {
+      newErrors.password = 'Password cannot be blank';
+      isValidForm = false;
+    }
+
+    this.setState({
+      errors: newErrors,
+    });
+
+    return isValidForm;
   }
 
   handleLoginSubmit = () => {
     const { username, password } = this.state;
     const { login } = this.props;
 
-    login(username, password);
+    const isValid = this.validateForm();
+
+    if (isValid) {
+      this.setState({
+        errors: {...initialErrors}
+      })
+      login(username, password);
+    }
   }
 
   render() {
-    const { username, password } = this.state;
+    const { username, password, errors } = this.state;
+    const { globals } = this.props;
     return (
       <div className="login-page">
         <h1>Login</h1>
+        <p className="form-error">{errors.general}</p>
         <Input
           label="Username"
           value={username}
           placeholder="Enter your username"
           className="form-input"
           onChange={(event) => this.setState({ username: event.target.value })}
+          error={errors.username}
         />
         <Input
           label="Password"
@@ -47,6 +98,7 @@ class Login extends Component {
           placeholder="Enter your password"
           className="form-input"
           onChange={(event) => this.setState({ password: event.target.value })}
+          error={errors.password}
         />
         <div className="form-button-group">
           <button

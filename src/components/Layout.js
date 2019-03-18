@@ -7,20 +7,6 @@ import { connect } from 'react-redux';
 import Header from './Header';
 
 class Layout extends PureComponent {
-  componentDidMount() {
-    const { globals } = this.props;
-    if (!globals.user || isEmpty(globals.user)) {
-      Router.push('/login');
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { globals } = this.props;
-    if (!isEmpty(prevProps.globals.user) && isEmpty(globals.user)) {
-      Router.push('/login');
-    }
-  }
-
   render() {
     const { children } = this.props;
     return (

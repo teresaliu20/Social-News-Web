@@ -1,13 +1,17 @@
 import axios from 'axios';
 import Types from './index';
 import config from '../config';
+import errorMessages from './errorMessages';
 
 const configOptions = config[process.env.NODE_ENV || 'development'];
 
 export const loginAction = (username, password) => {
   return async (dispatch) => {
+    dispatch({
+      type: Types.LOGIN_REQUESTED,
+    });
     const url = `${configOptions.hostname}/api/login`;
-    axios.post(url, {
+    return axios.post(url, {
       username,
       password,
     })
@@ -18,9 +22,19 @@ export const loginAction = (username, password) => {
         });
       })
       .catch((error) => {
+        let errorMessage = '';
+        if (!error.response) {
+          errorMessage = errorMessages.networkError;
+        }
+        else if (error.response.status === 400) {
+          errorMessage = 'Username and password doesn\'t match any users';
+        }
+        else {
+          errorMessage = errorMessages.bugError;
+        }
         dispatch({
           type: Types.LOGIN_FAILURE,
-          error,
+          error: errorMessage,
         });
       });
   };
@@ -28,8 +42,10 @@ export const loginAction = (username, password) => {
 
 export const signupAction = (signupInfo) => {
   return async (dispatch) => {
+    dispatch({
+      type: Types.SIGNUP_REQUESTED,
+    });
     const url = `${configOptions.hostname}/api/signup`;
-
     axios.post(url, {
       username: signupInfo.username,
       password: signupInfo.password,
@@ -38,15 +54,26 @@ export const signupAction = (signupInfo) => {
       email: signupInfo.email,
     })
       .then((res) => {
+        console.log(res);
         dispatch({
           type: Types.SIGNUP_SUCCESS,
           user: res.data,
         });
       })
       .catch((error) => {
+        let errorMessage = '';
+        if (!error.response) {
+          errorMessage = errorMessages.networkError;
+        }
+        else if (error.response.status === 400) {
+          errorMessage = 'Signup failed. Try different username.';
+        }
+        else {
+          errorMessage = errorMessages.bugError;
+        }
         dispatch({
           type: Types.SIGNUP_FAILURE,
-          error,
+          error: errorMessage,
         });
       });
   };
@@ -67,7 +94,7 @@ export const logoutAction = (username, password) => {
       .catch((error) => {
         dispatch({
           type: Types.LOGOUT_FAILURE,
-          error,
+          error: error.message,
         });
       });
   };

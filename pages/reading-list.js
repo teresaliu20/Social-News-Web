@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styles from 'styles/Collection.scss';
 import axios from 'axios';
 import Link from 'next/link';
+import Router from 'next/router';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { connect } from 'react-redux';
@@ -21,7 +22,7 @@ class ReadingList extends Component {
 
   componentWillMount = async () => {
     const { user } = this.props.globals;
-    const getReadingListUrl = `${configOptions.hostname}/api/users/${user.id}/reading-list`;
+    const getReadingListUrl = `${configOptions.hostname}/api/users/${user.data.id}/reading-list`;
     const readingListResp = await axios.get(getReadingListUrl);
 
     if (readingListResp.status === 200 && readingListResp.data) {
@@ -37,12 +38,27 @@ class ReadingList extends Component {
     linkInput: '',
   }
 
+  componentDidUpdate(prevProps) {
+    const { globals } = this.props;
+    if (!isEmpty(prevProps.globals.user.data) && isEmpty(globals.user.data)) {
+      Router.push('/login');
+    }
+  }
+
+  componentDidMount() {
+    const { globals } = this.props;
+    if (!globals.user.data || isEmpty(globals.user.data)) {
+      Router.push('/login');
+    }
+  }
+
+
   handleAddLink = async () => {
     const { user } = this.props.globals;
     const { linkInput } = this.state;
     const postReadingListUrl = `${configOptions.hostname}/api/users/reading-list`;
     const postLinkResp = await axios.post(postReadingListUrl, {
-      user_id: user.id,
+      user_id: user.data.id,
       url: linkInput,
     });
 
@@ -58,7 +74,6 @@ class ReadingList extends Component {
 
   handleDeleteLink = async (linkId) => {
 
-    const { user } = this.props.globals;
     const { linkInput } = this.state;
     const postReadingListUrl = `${configOptions.hostname}/api/users/reading-list`;
     const postLinkResp = await axios.delete(postReadingListUrl, {

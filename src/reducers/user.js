@@ -1,28 +1,76 @@
 import Types from '../actions/index';
 
-const user = (state = null, action) => {
+const initialUserState = {
+  data: {},
+  pending: false,
+  error: null,
+};
+
+const user = (state = initialUserState, action) => {
   switch (action.type) {
     case Types.LOGIN_SUCCESS:
-      return action.user;
+      return {
+        data: action.user,
+        pending: false,
+        error: null,
+      };
+    case Types.LOGIN_REQUESTED:
+      return {
+        data: {},
+        pending: true,
+        error: null,
+      };
     case Types.LOGIN_FAILURE:
-      return null;
+      return {
+        data: {},
+        pending: false,
+        error: action.error,
+      };
     case Types.SIGNUP_SUCCESS:
-      return action.user;
+      return {
+        data: action.user,
+        pending: false,
+        error: null,
+      };
+    case Types.SIGNUP_REQUESTED:
+      return {
+        data: {},
+        pending: true,
+        error: null,
+      };
     case Types.SIGNUP_FAILURE:
-      return null;
+      return {
+        data: {},
+        pending: false,
+        error: action.error,
+      };
     case Types.LOGOUT_SUCCESS:
-      return null;
+      return {
+        data: {},
+        pending: false,
+      };
     case Types.LOGOUT_FAILURE:
-      return null;
+      return {
+        data: {},
+        pending: false,
+      };
     case Types.EDIT_PROFILE_SUCCESS:
-      return action.user;
+      return {
+        data: action.user,
+        pending: false,
+        error: null,
+      };
     case Types.EDIT_PROFILE_FAILURE:
-      return state;
+      return {
+        data: {},
+        pending: false,
+        error: action.error,
+      };
     case 'persist/REHYDRATE':
-      if (action.payload && action.payload.user) {
+      if (action.payload && action.payload.user && action.payload.user.data) {
         return action.payload.user;
       }
-      return state;
+      return initialUserState;
     default:
       return state;
   }

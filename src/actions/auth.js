@@ -27,7 +27,7 @@ export const loginAction = (username, password) => {
           errorMessage = errorMessages.networkError;
         }
         else if (error.response.status === 400) {
-          errorMessage = 'Username and password does not match user';
+          errorMessage = 'Username and password doesn\'t match any users';
         }
         else {
           errorMessage = errorMessages.bugError;

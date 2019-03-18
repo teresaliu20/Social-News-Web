@@ -91,7 +91,13 @@ class Profile extends React.Component {
       userInfo = this.props.userViewing;
     }
 
-    const { first_name, last_name, email, bio } = userInfo;
+    const { first_name, last_name, email } = userInfo;
+
+    let { bio } = userInfo;
+
+    if (!bio)
+      bio = isOwnProfile ? 'Welcome! Edit your profile to add a short bio about yourself.' : 'No bio yet.';
+
 
     return (
       <div className="profile-page">

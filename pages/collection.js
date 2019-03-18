@@ -47,7 +47,7 @@ class Collection extends Component {
 
   state = {
     openRelateCollectionForm: false,
-    relatedCollectionButtonText: 'Relate a Collection'
+    relatedCollectionButtonText: 'Relate a Collection',
   }
 
   render() {
@@ -58,26 +58,24 @@ class Collection extends Component {
     const isOwnCollection = user.data ? (collection.owner === user.data.id) : false;
     const dateCreated = moment(collection.created).format('MMM Do YY');
 
-    return (
-      <div className="collection-page">
-        <div className="padded-section">
+    let collectionSection = null;
+
+    if (isOwnCollection && relatedCollections.length === 0) {
+      collectionSection = (
+        <div className="collection-section">
+          <p className="text-sans-serif">
+          No related collections yet! To add a related section, go out
+          and search for collections similar to yours. You can request to
+          relate your collection after you read their collection.
+          </p>
+        </div>
+      );
+    }
+
+    else if (relatedCollections.length > 0) {
+      collectionSection = (
+        <div className="collection-section">
           {
-            isOwnCollection &&
-            <Link
-              prefetch href={`/edit-collection?id=${collection.id}`}>
-              <button className="form-button-outline corner-button">Edit Collection</button>
-            </Link>
-          }
-          <h1>{collection.name}</h1>
-          <p className="collection-date">{dateCreated}</p>
-          <p className="text-sans-serif">{collection.description}</p>
-          <div className="links-section">
-            <LinksSection links={links} />
-          </div>
-          <hr className="hr"/>
-          <h3>Related Collections</h3>
-          <div className="collection-section">
-            {
             relatedCollections.map((relatedCollection) => (
               <CollectionCard
                 key={shortid.generate()}
@@ -87,28 +85,55 @@ class Collection extends Component {
               />
             ))
           }
+        </div>
+      );
+    }
+
+    return (
+      <div className="collection-page">
+        <div className="padded-section">
+          {
+            isOwnCollection
+            && (
+            <Link
+              prefetch
+              href={`/edit-collection?id=${collection.id}`}
+            >
+              <button className="form-button-outline corner-button">Edit Collection</button>
+            </Link>
+            )
+          }
+          <h1>{collection.name}</h1>
+          <p className="collection-date">{dateCreated}</p>
+          <p className="text-sans-serif">{collection.description}</p>
+          <div className="links-section">
+            <LinksSection links={links} />
           </div>
+          <hr className="hr" />
+          <h3>Related Collections</h3>
+          {
+            collectionSection
+          }
           {
             !isOwnCollection && (
               <div>
-              <hr className="hr" />
-            <div className="collections-section form-with-corner-button">
-              <h3>Have a related collection?</h3>
-              {
+                <hr className="hr" />
+                <div className="collections-section form-with-corner-button">
+                  <h3>Have a related collection?</h3>
+                  {
                 openRelateCollectionForm && <RelateCollectionForm collectionToObj={collection} />
               }
-              <button
-                className="form-button-outline"
-                onClick={() =>
-                  this.setState({
-                    openRelateCollectionForm: !this.state.openRelateCollectionForm,
-                    relatedCollectionButtonText
-                })}
-              >
-                { relatedCollectionButtonText }
-              </button>
-            </div>
-            </div>
+                  <button
+                    className="form-button-outline"
+                    onClick={() => this.setState({
+                      openRelateCollectionForm: !this.state.openRelateCollectionForm,
+                      relatedCollectionButtonText,
+                    })}
+                  >
+                    { relatedCollectionButtonText }
+                  </button>
+                </div>
+              </div>
             )
           }
 

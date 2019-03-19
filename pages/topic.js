@@ -1,142 +1,83 @@
 import React, { Component } from 'react';
-import styles from 'styles/Collection.scss';
-import axios from 'axios';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import Router from 'next/router';
 import { isEmpty } from 'lodash';
-import moment from 'moment';
+import styles from 'styles/Profile.scss';
 import { connect } from 'react-redux';
-import shortid from 'shortid';
 import CollectionCard from '../src/components/CollectionCard';
-import LinksSection from '../src/components/LinksSection';
-import RelateCollectionForm from '../src/components/RelateCollectionForm';
+import Types from '../src/actions/index';
+import { getCollectionsAction } from '../src/actions/collections';
 import config from '../src/config';
 
 const configOptions = config[process.env.NODE_ENV || 'development'];
 
-class Topic extends Component {
-  static async getInitialProps({ req, query }) {
-    if (!query.id) return;
 
-    let collection = {};
-    let links = [];
-    let relatedCollections = [];
+class Topic extends React.Component {
+  static async getInitialProps({ store, isServer, pathname, query }) {
+    const topic_id = query.id;
 
-    const collectionUrl = `${configOptions.hostname}/api/collections/${query.id}`;
-    const collectionResp = await axios.get(collectionUrl);
+    // HARDCODED get collections
+    let collections = [];
 
-    if (collectionResp.status === 200) {
-      collection = collectionResp.data.collectionInfo;
-      links = collectionResp.data.links;
+    // if the profile exists, get collections using the user id from the profile
+    const getUserCollectionsUrl = `${configOptions.hostname}/api/users/1/collections`;
+    const collectionsResp = await axios.get(getUserCollectionsUrl);
+
+    if (collectionsResp.status === 200 && collectionsResp.data) {
+      collections = collectionsResp.data.collections;
     }
 
-    // get related collections
-    const relatedCollectionsUrl = `${configOptions.hostname}/api/collections/${query.id}/connected`;
-    const relatedCollectionsResp = await axios.get(relatedCollectionsUrl);
-
-    if (relatedCollectionsResp.status === 200) {
-      relatedCollections = relatedCollectionsResp.data;
-    }
-
+    // return the user profile and collections to render on the profile page
     return {
-      collection,
-      links,
-      relatedCollections,
+      collections
     };
   }
 
-  state = {
-    openRelateCollectionForm: false,
-    relatedCollectionButtonText: 'Relate a Collection',
+  componentDidMount() {
+    const { globals, isOwnProfile } = this.props;
+    if (isOwnProfile && (!globals.user.data || isEmpty(globals.user.data))) {
+      Router.push('/login');
+    }
+
+    const { id } = globals.user.data;
+
+    if (id) {
+      this.props.getCollections(id);
+    }
   }
 
+  componentDidUpdate(prevProps) {
+    const { globals, isOwnProfile } = this.props;
+    if (isOwnProfile && !isEmpty(prevProps.globals.user.data) && isEmpty(globals.user.data)) {
+      Router.push('/login');
+    }
+  }
+
+
   render() {
-    const { collection, links, relatedCollections } = this.props;
-    const { user } = this.props.globals;
-    const { openRelateCollectionForm, relatedCollectionButtonText } = this.state;
 
-    const isOwnCollection = user.data ? (collection.owner === user.data.id) : false;
-    const dateCreated = moment(collection.created).format('MMM Do YY');
-
-    let collectionSection = null;
-
-    if (isOwnCollection && relatedCollections.length === 0) {
-      collectionSection = (
-        <div className="collection-section">
-          <p className="text-sans-serif">
-          No related collections yet! To add a related section, go out
-          and search for collections similar to yours. You can request to
-          relate your collection after you read their collection.
-          </p>
-        </div>
-      );
-    }
-
-    else if (relatedCollections.length > 0) {
-      collectionSection = (
-        <div className="collection-section">
-          {
-            relatedCollections.map((relatedCollection) => (
-              <CollectionCard
-                key={shortid.generate()}
-                relation={relatedCollection.relationship}
-                approved={relatedCollection.approved}
-                collection={relatedCollection.collectionInfo}
-              />
-            ))
-          }
-        </div>
-      );
-    }
+    const { collections } = this.props;
 
     return (
-      <div className="collection-page">
+      <div className="profile-page">
         <div className="padded-section">
+          <h1>Topic Name</h1>
+          <p className="text-sans-serif">Topic stats</p>
+        </div>
+        <div className="collection-section">
           {
-            isOwnCollection
-            && (
-            <Link
-              prefetch
-              href={`/edit-collection?id=${collection.id}`}
-            >
-              <button className="form-button-outline corner-button">Edit Collection</button>
-            </Link>
-            )
+            collections ? collections.map((collection) => {
+              return (
+                <CollectionCard
+                  key={collection.id}
+                  collection={collection}
+                />
+              );
+            })
+              : <div>Loading collections</div>
           }
-          <h1>{collection.name}</h1>
-          <p className="collection-date">{dateCreated}</p>
-          <p className="text-sans-serif">{collection.description}</p>
-          <div className="links-section">
-            <LinksSection links={links} />
-          </div>
-          <hr className="hr" />
-          <h3>Related Collections</h3>
-          {
-            collectionSection
-          }
-          {
-            !isOwnCollection && (
-              <div>
-                <hr className="hr" />
-                <div className="collections-section form-with-corner-button">
-                  <h3>Have a related collection?</h3>
-                  {
-                openRelateCollectionForm && <RelateCollectionForm collectionToObj={collection} />
-              }
-                  <button
-                    className="form-button-outline"
-                    onClick={() => this.setState({
-                      openRelateCollectionForm: !this.state.openRelateCollectionForm,
-                      relatedCollectionButtonText,
-                    })}
-                  >
-                    { relatedCollectionButtonText }
-                  </button>
-                </div>
-              </div>
-            )
-          }
-
         </div>
         <style jsx>{styles}</style>
       </div>
@@ -144,15 +85,24 @@ class Topic extends Component {
   }
 }
 
-Collection.propTypes = {
+Topic.propTypes = {
   globals: PropTypes.object,
-  collection: PropTypes.object,
-  links: PropTypes.arrayOf(PropTypes.object),
-  relatedCollections: PropTypes.arrayOf(PropTypes.object),
+  getCollections: PropTypes.func,
+  isOwnProfile: PropTypes.bool,
+  userViewing: PropTypes.object,
+  collectionsViewing: PropTypes.object,
 };
+
 
 const mapStateToProps = (state) => ({
   globals: state,
 });
 
-export default connect(mapStateToProps)(Collection);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCollections: (userId) => dispatch(getCollectionsAction(userId)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Topic);

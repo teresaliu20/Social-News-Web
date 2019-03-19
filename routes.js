@@ -12,6 +12,9 @@ const APP_ROUTES = [{
   page: 'collection',
   pattern: '/collection/:id',
 }, {
+  page: 'topic',
+  pattern: '/topic/:id',
+}, {
   page: 'login',
   pattern: '/login',
 }, {

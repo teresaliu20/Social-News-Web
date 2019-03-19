@@ -14,7 +14,7 @@ import config from '../src/config';
 
 const configOptions = config[process.env.NODE_ENV || 'development'];
 
-class Collection extends Component {
+class Topic extends Component {
   static async getInitialProps({ req, query }) {
     if (!query.id) return;
 
@@ -48,19 +48,6 @@ class Collection extends Component {
   state = {
     openRelateCollectionForm: false,
     relatedCollectionButtonText: 'Relate a Collection',
-  }
-
-  handleAddReadingList = async (linkSelected) => {
-    const { user } = this.props.globals;
-    const postReadingListUrl = `${configOptions.hostname}/api/users/reading-list`;
-    const postLinkResp = await axios.post(postReadingListUrl, {
-      user_id: user.data.id,
-      url: linkSelected.url,
-    });
-
-    if (postLinkResp.status === 200 && postLinkResp.data) {
-      alert("Successfully added to reading list!");
-    }
   }
 
   render() {
@@ -120,16 +107,7 @@ class Collection extends Component {
           <p className="collection-date">{dateCreated}</p>
           <p className="text-sans-serif">{collection.description}</p>
           <div className="links-section">
-            <LinksSection
-              links={links}
-              sideMenuButtons={[
-                  {
-                    buttonType: 'add',
-                    handlePress: this.handleAddReadingList,
-                    label: 'Add link to reading list'
-                  }
-                ]}
-            />
+            <LinksSection links={links} />
           </div>
           <hr className="hr" />
           <h3>Related Collections</h3>

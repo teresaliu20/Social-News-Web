@@ -6,9 +6,15 @@ import styles from 'styles/LinksSection.scss';
 import MicrolinkCard from '@microlink/react';
 import validURL from '../helpers/validUrlHelper';
 
+const buttonTypeToSVG = {
+  'delete': 'static/delete.svg',
+  'check': 'static/check.svg',
+  'add': 'static/add.svg',
+};
+
 class LinksSection extends React.Component {
   render() {
-    const { links, handleDeleteLink } = this.props;
+    const { links, sideMenuButtons } = this.props;
     return (
       <div className="links-section">
         {
@@ -23,15 +29,21 @@ class LinksSection extends React.Component {
               />
               <div className="link-side-menu">
                 {
-                  handleDeleteLink && (
-                    <button
-                      type="submit"
-                      className="links-hover-button form-button-outline"
-                      onClick={() => handleDeleteLink(link.id)}
-                    >
-                        X
-                    </button>
-                  )
+                  sideMenuButtons.map((buttonObj) => (
+                    <div className="link-item">
+                      <p className="link-item-label">{buttonObj.label}</p>
+                      <button
+                        type="submit"
+                        className="form-button-outline circle-button "
+                        onClick={() => buttonObj.handlePress(link)}
+                      >
+                        <img
+                          alt={buttonTypeToSVG[buttonObj.buttonType]}
+                          src={buttonTypeToSVG[buttonObj.buttonType]}
+                        />
+                      </button>
+                    </div>
+                  ))
                 }
               </div>
             </div>
@@ -50,7 +62,7 @@ class LinksSection extends React.Component {
 
 LinksSection.propTypes = {
   links: PropTypes.arrayOf(PropTypes.object),
-  handleDeleteLink: PropTypes.func,
+  sideMenuButtons: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default LinksSection;

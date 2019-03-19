@@ -2,18 +2,58 @@
 
 .links-section{
   margin: 60px 0;
+  margin-left: -100px;
   .link {
     margin: 20px 0;
     position: relative;
+    padding-left: 100px;
+    &:hover {
+      .link-side-menu {
+        display: block;
+      }
+    }
   }
 }
 
-.links-hover-button {
+.link-item {
+  display: flex;
+  position: relative;
+  &:hover {
+    .link-item-label {
+      display: block;
+    }
+  }
+  .link-item-label {
+    text-align: end;
+    position: absolute;
+    top: -5px;
+    left: -110px;
+    display: none;
+    width: 100px;
+    font-family: $font-sans-serif;
+    color: $mediumGray;
+  }
+}
+
+.circle-button {
   height: 30px;
   width: 30px;
   border-radius: 50%;
+  padding: 7px;
+  margin: 5px;
+  * {
+    margin: auto;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+.link-side-menu {
+  display: none;
   padding: 0;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 30px;
 }

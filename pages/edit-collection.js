@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import Input from '../src/components/Input';
 import Textarea from '../src/components/Textarea';
 import styles from '../src/styles/CreateCollectionForm.scss';
-import { editCollectionAction } from '../src/actions/collections';
+import { editCollectionAction, deleteCollectionAction } from '../src/actions/collections';
 import validURL from '../src/helpers/validUrlHelper';
 import config from '../src/config';
 
@@ -122,6 +122,11 @@ class EditCollectionForm extends Component {
     }
   }
 
+  handleDeleteCollection = () => {
+    const { collectionId } = this.state;
+    this.props.deleteCollection(collectionId)
+    Router.push('/profile')
+  }
 
   handleAddLink = () => {
     const {links, linkInput} = this.state;
@@ -153,7 +158,17 @@ class EditCollectionForm extends Component {
 
     return (
       <div className="create-collection-page">
-        <h1>Edit New Collection</h1>
+        
+        <div className="form-with-corner-button">
+          <h1>Edit New Collection</h1>
+          <button
+            className="form-button-outline warning-button"
+            onClick={this.handleDeleteCollection}
+          >
+            Delete Collection
+          </button>
+    
+        </div>
         <Input
           label="Title"
           value={name}
@@ -222,6 +237,7 @@ class EditCollectionForm extends Component {
 EditCollectionForm.propTypes = {
   globals: PropTypes.object,
   editCollection: PropTypes.func,
+  deleteCollection: PropTypes.func,
   collection: PropTypes.object,
   links: PropTypes.object,
 };
@@ -233,6 +249,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     editCollection: (name, userId, description, links, collectionId) => dispatch(editCollectionAction(name, userId, description, links, collectionId)),
+    deleteCollection: (collectionId) => dispatch(deleteCollectionAction(collectionId)),
   };
 };
 

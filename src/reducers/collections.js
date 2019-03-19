@@ -10,16 +10,29 @@ const collections = (state = [], action) => {
       return [...state, action.collection];
     case Types.EDIT_COLLECTIONS_SUCCESS:
 
-      const updatedCollections = [...state];
+      const updatedCollectionsEdit = [...state];
 
-      const oldCollectionIndex = updatedCollections.findIndex((collection) => {
+      const oldCollectionIndexEdit = updatedCollectionsEdit.findIndex((collection) => {
         return collection.id === action.collection.id;
       });
 
-      updatedCollections.splice(oldCollectionIndex, 1, action.collection);
-      return updatedCollections;
+      updatedCollectionsEdit.splice(oldCollectionIndexEdit, 1, action.collection);
+      return updatedCollectionsEdit;
 
     case Types.EDIT_COLLECTIONS_FAILURE:
+      return state;
+    case Types.DELETE_COLLECTIONS_SUCCESS:
+
+      const updatedCollectionsDelete = [...state];
+
+      const oldCollectionIndexDelete = updatedCollectionsDelete.findIndex((collection) => {
+        return collection.id === action.collection.id;
+      });
+
+      updatedCollectionsDelete.splice(oldCollectionIndexDelete, 1);
+      return updatedCollectionsDelete;
+
+    case Types.DELETE_COLLECTIONS_FAILURE:
       return state;
     case Types.POST_COLLECTIONS_FAILURE:
       return state;

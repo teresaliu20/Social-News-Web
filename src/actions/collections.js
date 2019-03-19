@@ -72,3 +72,27 @@ export const editCollectionAction = (name, userId, description, links, collectio
       });
   };
 };
+
+
+export const deleteCollectionAction = (collectionId) => {
+  return async (dispatch) => {
+    const url = `${configOptions.hostname}/api/collections`;
+    axios.delete(url, {
+      data: {
+        collection_id: collectionId,
+      },
+    })
+      .then((res) => {
+        dispatch({
+          type: Types.DELETE_COLLECTIONS_SUCCESS,
+          collection: res.data.collectionInfo,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: Types.DELETE_COLLECTIONS_FAILURE,
+          error,
+        });
+      });
+  };
+};

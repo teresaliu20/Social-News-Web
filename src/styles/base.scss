@@ -118,7 +118,7 @@ a {
 }
 
 .form-error {
-  color: $errorText;
+  color: $warningText;
   font-family: $font-sans-serif;
   letter-spacing: 0.03em;
   margin: 5px 0;
@@ -210,6 +210,14 @@ a {
   font-family: $font-sans-serif;
   &:hover {
     border-color: darken($mediumGray, 80%)
+  }
+}
+
+.warning-button {
+  &:hover {
+    color: $warningText;
+    border-color: $warningText;
+    background-color: lighten($warningText, 30%);
   }
 }
 

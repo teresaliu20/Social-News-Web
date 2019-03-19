@@ -3,7 +3,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Select from 'react-select';
+import MySelect from '../src/components/MySelect';
 import config from '../src/config';
 import styles from '../src/styles/Search.scss';
 import errorMessages from '../src/constants/errorMessages';
@@ -107,7 +107,7 @@ class Collection extends Component {
           <p className="form-error">{error}</p>
           <div className="search-row">
             <div className="select-wrapper">
-              <Select
+              <MySelect
                 value={searchTypeSelected}
                 onChange={this.handleSearchTypeChange}
                 options={searchTypeOptions}

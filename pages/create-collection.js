@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
+import axios from 'axios';
 import Router from 'next/router';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import MySelect from '../src/components/MySelect';
 import shortid from 'shortid';
 import Input from '../src/components/Input';
 import Textarea from '../src/components/Textarea';
 import validURL from '../src/helpers/validUrlHelper';
 import styles from '../src/styles/CreateCollectionForm.scss';
 import { createNewCollectionAction } from '../src/actions/collections';
+import config from '../src/config';
 
+const configOptions = config[process.env.NODE_ENV || 'development'];
 
 const initialErrors = {
   general: '',
@@ -25,10 +29,28 @@ const initialState = {
   links: [], // array of url strings
   linkInput: '',
   collectionId: 0,
+  topicsSelected: [],
+  topicOptions: [],
   errors: initialErrors,
 };
 
 class CreateCollectionForm extends Component {
+
+  static async getInitialProps({ req, query }) {
+
+    let allTopics = [];
+    const allTopicsUrl = `${configOptions.hostname}/api/topics/all`;
+    const allTopicsResp = await axios.get(allTopicsUrl);
+
+    if (allTopicsResp.status === 200) {
+      allTopics = allTopicsResp.data
+    }
+
+    return {
+      allTopics,
+    };
+  }
+
   state = {...initialState};
 
   componentDidUpdate(prevProps) {
@@ -39,10 +61,19 @@ class CreateCollectionForm extends Component {
   }
 
   componentDidMount() {
-    const { globals } = this.props;
+    const { globals, allTopics } = this.props;
     if (!globals.user.data || isEmpty(globals.user.data)) {
       Router.push('/login');
     }
+
+    const newTopicOptions = allTopics.map(topic => ({
+      label: topic,
+      value: topic,
+    }))
+
+    this.setState({
+      topicOptions: newTopicOptions,
+    })
   }
 
   handleAddLink = () => {
@@ -72,7 +103,7 @@ class CreateCollectionForm extends Component {
 
   validateForm = () => {
 
-    const { name, description, errors } = this.state;
+    const { name, description, links, errors } = this.state;
 
     const newErrors = { ...initialErrors };
 
@@ -88,11 +119,22 @@ class CreateCollectionForm extends Component {
       isValidForm = false;
     }
 
+    if (links.length === 0) {
+      newErrors.linkInput = 'Must have at least 1 link';
+      isValidForm = false;
+    }
+
     this.setState({
       errors: newErrors,
     });
 
     return isValidForm;
+  }
+
+  handleTopicListChange = (topicList) => {
+    this.setState({
+      topicsSelected: topicList,
+    })
   }
 
   handleCreateNewCollection = () => {
@@ -101,14 +143,15 @@ class CreateCollectionForm extends Component {
 
     if (isValid) {
       const { user } = this.props.globals;
-      const { name, description, links } = this.state;
-      this.props.createNewCollection(name, user.data.id, description, links);
+      const { name, description, links, topicsSelected } = this.state;
+      const topics = topicsSelected.map(topicSelected => topicSelected.value);
+      this.props.createNewCollection(name, user.data.id, description, links, topics);
       Router.push('/profile');
     }
   }
 
   render() {
-    const { name, description, links, linkInput, errors } = this.state;
+    const { name, description, links, linkInput, errors, topicsSelected, topicOptions } = this.state;
     return (
       <div className="create-collection-page">
         <h1>Write New Collection</h1>
@@ -119,6 +162,13 @@ class CreateCollectionForm extends Component {
           className="form-input"
           onChange={(event) => this.setState({ name: event.target.value })}
           error={errors.name}
+        />
+        <p className="form-label">Topics</p>
+        <MySelect
+          value={topicsSelected}
+          onChange={this.handleTopicListChange}
+          options={topicOptions}
+          isMulti
         />
         <Textarea
           label="Description"
@@ -188,7 +238,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createNewCollection: (name, userId, description, links) => dispatch(createNewCollectionAction(name, userId, description, links)),
+    createNewCollection: (name, userId, description, links, topics) => dispatch(createNewCollectionAction(name, userId, description, links, topics)),
   };
 };
 

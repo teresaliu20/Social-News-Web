@@ -16,14 +16,14 @@ const configOptions = config[process.env.NODE_ENV || 'development'];
 
 class Topic extends React.Component {
   static async getInitialProps({ store, isServer, pathname, query }) {
-    const topic_id = query.id;
+    const topicName = query.name;
 
     // HARDCODED get collections
     let collections = [];
 
     // if the profile exists, get collections using the user id from the profile
-    const getUserCollectionsUrl = `${configOptions.hostname}/api/users/1/collections`;
-    const collectionsResp = await axios.get(getUserCollectionsUrl);
+    const allTopicCollectionsUrl = `${configOptions.hostname}/api/topic/${topicName}`;
+    const collectionsResp = await axios.get(allTopicCollectionsUrl);
 
     if (collectionsResp.status === 200 && collectionsResp.data) {
       collections = collectionsResp.data.collections;
@@ -31,6 +31,7 @@ class Topic extends React.Component {
 
     // return the user profile and collections to render on the profile page
     return {
+      topicName,
       collections
     };
   }
@@ -58,13 +59,13 @@ class Topic extends React.Component {
 
   render() {
 
-    const { collections } = this.props;
+    const { collections, topicName } = this.props;
 
     return (
       <div className="profile-page">
         <div className="padded-section">
-          <h1>Topic Name</h1>
-          <p className="text-sans-serif">Topic stats</p>
+          <h1>{topicName}</h1>
+          <p className="text-sans-serif">{`${collections.length} collections`}</p>
         </div>
         <div className="collection-section">
           {

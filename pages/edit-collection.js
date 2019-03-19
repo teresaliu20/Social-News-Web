@@ -5,6 +5,7 @@ import Router from 'next/router';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
+import MySelect from '../src/components/MySelect';
 import { connect } from 'react-redux';
 import Input from '../src/components/Input';
 import Textarea from '../src/components/Textarea';
@@ -29,6 +30,8 @@ const initialState = {
   links: [], // array of url strings
   linkInput: '',
   collectionId: 0,
+  topicsSelected: [],
+  topicOptions: [],
   errors: initialErrors,
 };
 
@@ -40,6 +43,7 @@ class EditCollectionForm extends Component {
     let collection = {};
     let links = [];
     let relatedCollections = [];
+    let allTopics = [];
 
     const collectionUrl = `${configOptions.hostname}/api/collections/${query.id}`;
     const collectionResp = await axios.get(collectionUrl);
@@ -48,9 +52,18 @@ class EditCollectionForm extends Component {
       collection = collectionResp.data.collectionInfo;
       links = collectionResp.data.links;
     }
+
+    const allTopicsUrl = `${configOptions.hostname}/api/topics/all`;
+    const allTopicsResp = await axios.get(allTopicsUrl);
+
+    if (allTopicsResp.status === 200) {
+      allTopics = allTopicsResp.data
+    }
+
     return {
       collection,
       links,
+      allTopics,
     };
   }
 
@@ -62,10 +75,19 @@ class EditCollectionForm extends Component {
   }
 
   componentDidMount() {
-    const { globals } = this.props;
+    const { globals, allTopics } = this.props;
     if (!globals.user.data || isEmpty(globals.user.data)) {
       Router.push('/login');
     }
+
+    const newTopicOptions = allTopics.map(topic => ({
+      label: topic,
+      value: topic,
+    }))
+
+    this.setState({
+      topicOptions: newTopicOptions,
+    })
 
     if (!isEmpty(this.props.collection)) {
       const {collection, links} = this.props;
@@ -83,7 +105,7 @@ class EditCollectionForm extends Component {
   state = initialState;
 
   validateForm = () => {
-    const { name, description, errors } = this.state;
+    const { name, description, errors, links } = this.state;
 
     const newErrors = { ...initialErrors };
 
@@ -96,6 +118,11 @@ class EditCollectionForm extends Component {
 
     if (description === '' || description.trim() === '') {
       newErrors.description = 'Description cannot be blank';
+      isValidForm = false;
+    }
+
+    if (links.length === 0) {
+      newErrors.linkInput = 'Must have at least 1 link';
       isValidForm = false;
     }
 
@@ -116,10 +143,17 @@ class EditCollectionForm extends Component {
 
     if (isValid) {
       const { user } = this.props.globals;
-      const { name, description, links, collectionId } = this.state;
-      this.props.editCollection(name, user.data.id, description, links, collectionId );
+      const { name, description, links, collectionId, topicsSelected } = this.state;
+      const topics = topicsSelected.map(topicSelected => topicSelected.value);
+      this.props.editCollection(name, user.data.id, description, links, collectionId, topics );
       Router.back();
     }
+  }
+
+  handleTopicListChange = (topicList) => {
+    this.setState({
+      topicsSelected: topicList,
+    })
   }
 
   handleDeleteCollection = () => {
@@ -154,8 +188,8 @@ class EditCollectionForm extends Component {
   }
 
   render() {
-    const { name, description, links, linkInput, errors } = this.state;
-
+    const { name, description, links, linkInput, errors, topicsSelected, topicOptions } = this.state;
+    console.log(topicsSelected)
     return (
       <div className="create-collection-page">
         
@@ -177,6 +211,13 @@ class EditCollectionForm extends Component {
           onChange={(event) => this.setState({ name: event.target.value })}
           error={errors.name}
         />
+        <p className="form-label">Topics</p>
+        <MySelect
+          value={topicsSelected}
+          onChange={this.handleTopicListChange}
+          options={topicOptions}
+          isMulti
+        />
         <Textarea
           label="Description"
           value={description}
@@ -195,6 +236,7 @@ class EditCollectionForm extends Component {
             Add Link
           </button>
         </div>
+        
         <div className="links-section">
         <Input
           value={linkInput}
@@ -240,6 +282,7 @@ EditCollectionForm.propTypes = {
   deleteCollection: PropTypes.func,
   collection: PropTypes.object,
   links: PropTypes.object,
+  allTopics: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
@@ -248,7 +291,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    editCollection: (name, userId, description, links, collectionId) => dispatch(editCollectionAction(name, userId, description, links, collectionId)),
+    editCollection: (name, userId, description, links, collectionId, topics) => dispatch(editCollectionAction(name, userId, description, links, collectionId, topics)),
     deleteCollection: (collectionId) => dispatch(deleteCollectionAction(collectionId)),
   };
 };

@@ -21,6 +21,7 @@ class Collection extends Component {
     let collection = {};
     let links = [];
     let relatedCollections = [];
+    let topics = [];
 
     const collectionUrl = `${configOptions.hostname}/api/collections/${query.id}`;
     const collectionResp = await axios.get(collectionUrl);
@@ -28,6 +29,7 @@ class Collection extends Component {
     if (collectionResp.status === 200) {
       collection = collectionResp.data.collectionInfo;
       links = collectionResp.data.links;
+      topics = collectionResp.data.topics;
     }
 
     // get related collections
@@ -37,11 +39,11 @@ class Collection extends Component {
     if (relatedCollectionsResp.status === 200) {
       relatedCollections = relatedCollectionsResp.data;
     }
-
     return {
       collection,
       links,
       relatedCollections,
+      topics,
     };
   }
 
@@ -64,7 +66,7 @@ class Collection extends Component {
   }
 
   render() {
-    const { collection, links, relatedCollections } = this.props;
+    const { collection, links, relatedCollections, topics } = this.props;
     const { user } = this.props.globals;
     const { openRelateCollectionForm, relatedCollectionButtonText } = this.state;
 
@@ -81,6 +83,7 @@ class Collection extends Component {
           and search for collections similar to yours. You can request to
           relate your collection after you read their collection.
           </p>
+          <style jsx>{styles}</style>
         </div>
       );
     }
@@ -118,6 +121,17 @@ class Collection extends Component {
           }
           <h1>{collection.name}</h1>
           <p className="collection-date">{dateCreated}</p>
+          <div className="topics-section">
+          {
+            topics.map(topic => (
+              <Link href={`/topic?name=${topic}`}>
+                <div className="topic">
+                  <span>#{topic}</span>
+                </div>
+              </Link>
+            ))
+          }
+          </div>
           <p className="text-sans-serif">{collection.description}</p>
           <div className="links-section">
             <LinksSection
@@ -171,6 +185,7 @@ Collection.propTypes = {
   collection: PropTypes.object,
   links: PropTypes.arrayOf(PropTypes.object),
   relatedCollections: PropTypes.arrayOf(PropTypes.object),
+  topics: PropTypes.arrayOf(PropTypes.object),
 };
 
 const mapStateToProps = (state) => ({

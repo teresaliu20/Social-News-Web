@@ -13,7 +13,7 @@ const APP_ROUTES = [{
   pattern: '/collection/:id',
 }, {
   page: 'topic',
-  pattern: '/topic/:id',
+  pattern: '/topic/:name',
 }, {
   page: 'login',
   pattern: '/login',

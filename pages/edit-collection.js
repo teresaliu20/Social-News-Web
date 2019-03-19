@@ -10,10 +10,27 @@ import Input from '../src/components/Input';
 import Textarea from '../src/components/Textarea';
 import styles from '../src/styles/CreateCollectionForm.scss';
 import { editCollectionAction } from '../src/actions/collections';
+import validURL from '../src/helpers/validUrlHelper';
 import config from '../src/config';
 
 const configOptions = config[process.env.NODE_ENV || 'development'];
 
+
+const initialErrors = {
+  general: '',
+  name: '',
+  linkInput: '',
+  description: '',
+};
+
+const initialState = {
+  name: '',
+  description: '',
+  links: [], // array of url strings
+  linkInput: '',
+  collectionId: 0,
+  errors: initialErrors,
+};
 
 class EditCollectionForm extends Component {
 
@@ -63,25 +80,68 @@ class EditCollectionForm extends Component {
     }
   }
 
-  state = {
-    name: '',
-    description: '',
-    links: [], // array of url strings
-    linkInput: '',
-    collectionId: 0
+  state = initialState;
+
+  validateForm = () => {
+    const { name, description, errors } = this.state;
+
+    const newErrors = { ...initialErrors };
+
+    let isValidForm = true;
+
+    if (name === '' || name.trim() === '') {
+      newErrors.name = 'Title cannot be blank';
+      isValidForm = false;
+    }
+
+    if (description === '' || description.trim() === '') {
+      newErrors.description = 'Description cannot be blank';
+      isValidForm = false;
+    }
+
+    this.setState({
+      errors: newErrors,
+    });
+
+    return isValidForm;
   }
 
   handleEditCollection = () => {
-    const { user } = this.props.globals;
-    const { name, description, links, collectionId } = this.state;
-    this.props.editCollection(name, user.data.id, description, links, collectionId );
-    Router.back();
+    
+    this.setState({
+      errors: {...initialErrors}
+    })
+
+    const isValid = this.validateForm();
+
+    if (isValid) {
+      const { user } = this.props.globals;
+      const { name, description, links, collectionId } = this.state;
+      this.props.editCollection(name, user.data.id, description, links, collectionId );
+      Router.back();
+    }
   }
+
 
   handleAddLink = () => {
     const {links, linkInput} = this.state;
-    const newLinks = [...links, linkInput]
-    this.setState({links: newLinks})
+
+    const newErrors = { ...this.state.errors };
+    let newLinkError = ""
+
+    if (validURL(linkInput)) {
+      const newLinks = [...links, linkInput]
+      this.setState({links: newLinks})      
+    }
+    else {
+      const newErrors = { ...this.state.errors };
+      newLinkError = "Link is not a valid URL."
+    }
+
+    newErrors.linkInput = newLinkError;
+    this.setState({
+      errors: newErrors,
+    })
   }
 
   handleGoBack = () => {
@@ -89,7 +149,7 @@ class EditCollectionForm extends Component {
   }
 
   render() {
-    const { name, description, links, linkInput } = this.state;
+    const { name, description, links, linkInput, errors } = this.state;
 
     return (
       <div className="create-collection-page">
@@ -100,6 +160,7 @@ class EditCollectionForm extends Component {
           placeholder="Collection Title"
           className="form-input"
           onChange={(event) => this.setState({ name: event.target.value })}
+          error={errors.name}
         />
         <Textarea
           label="Description"
@@ -107,6 +168,7 @@ class EditCollectionForm extends Component {
           placeholder="Type description of collection"
           className="form-textarea"
           onChange={(event) => this.setState({ description: event.target.value })}
+          error={errors.description}
         />
         <div className="form-with-corner-button">
           <h3>Links</h3>
@@ -124,6 +186,7 @@ class EditCollectionForm extends Component {
           placeholder="Enter link"
           className="form-input"
           onChange={(event) => this.setState({ linkInput: event.target.value })}
+          error={errors.linkInput}
         />
         {
           links && links.length ? links.map((link) => (

@@ -10,7 +10,7 @@ const Input = ({ value, type, placeholder, onChange, label, error }) => (
       value={value}
       type={type}
       placeholder={placeholder}
-      className="form-input-temp"
+      className="form-input"
       onChange={onChange}
     />
     {

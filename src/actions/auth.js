@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Types from './index';
 import config from '../config';
-import errorMessages from './errorMessages';
+import errorMessages from '../constants/errorMessages';
 
 const configOptions = config[process.env.NODE_ENV || 'development'];
 

@@ -72,20 +72,43 @@ class ReadingList extends Component {
     }
   }
 
-  handleDeleteLink = async (linkId) => {
+  handleDeleteLink = async (linkSelected) => {
 
     const { linkInput } = this.state;
     const postReadingListUrl = `${configOptions.hostname}/api/users/reading-list`;
     const postLinkResp = await axios.delete(postReadingListUrl, {
       data: {
-        link_id: linkId,
+        link_id: linkSelected.id,
       },
     });
 
     const links = [...this.state.links];
 
     const oldLinkIndex = links.findIndex((link) => {
-      return link.id === linkId;
+      return link.id === linkSelected.id;
+    });
+
+    links.splice(oldLinkIndex, 1);
+
+    this.setState({
+      links,
+    });
+  }
+
+  handleCheckLink = async (linkSelected) => {
+
+    const { linkInput } = this.state;
+    const postReadingListUrl = `${configOptions.hostname}/api/users/reading-list`;
+    const postLinkResp = await axios.delete(postReadingListUrl, {
+      data: {
+        link_id: linkSelected.id,
+      },
+    });
+
+    const links = [...this.state.links];
+
+    const oldLinkIndex = links.findIndex((link) => {
+      return link.id === linkSelected.id;
     });
 
     links.splice(oldLinkIndex, 1);
@@ -105,7 +128,18 @@ class ReadingList extends Component {
           <div className="links-section">
             <LinksSection
               links={links}
-              handleDeleteLink={this.handleDeleteLink}
+              sideMenuButtons={[
+                {
+                  buttonType: 'delete',
+                  handlePress: this.handleDeleteLink,
+                  label: 'Delete link'
+                },
+                {
+                  buttonType: 'check',
+                  handlePress: this.handleCheckLink,
+                  label: 'Mark as read'
+                }
+              ]}
             />
           </div>
           <div className="form-with-corner-button">

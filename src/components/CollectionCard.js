@@ -11,7 +11,7 @@ const CollectionCard = ({ collection, relation, key }) => {
 
   return (
     <Link href={`/collection?id=${collection.id}`} key={key}>
-      <div className="collection-card">
+      <div className="collection-card clickable">
         <p className="text-sans-serif text-italic highlight">{relation}</p>
         <h2>
           {collection.name}

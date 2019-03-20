@@ -64,7 +64,7 @@ class Home extends Component {
                   <hr className="hr" />
                   <Link href={`/topic?name=${topicWithCollection.topicName}`}>
                     <div>
-                      <h2 className="highlight">#
+                      <h2 className="highlight clickable">#
                         {topicWithCollection.topicName}
                       </h2>
                     </div>
@@ -72,6 +72,26 @@ class Home extends Component {
                 </div>
 
                 <div className="topic-carousel">
+                  {
+                    topicWithCollection.collections.map((collection) => {
+                      return (
+                        <CollectionCard
+                          key={collection.id}
+                          collection={collection}
+                        />
+                      );
+                    })
+                  }
+                  {
+                    topicWithCollection.collections.map((collection) => {
+                      return (
+                        <CollectionCard
+                          key={collection.id}
+                          collection={collection}
+                        />
+                      );
+                    })
+                  }
                   {
                     topicWithCollection.collections.map((collection) => {
                       return (

@@ -61,6 +61,10 @@ a {
   display: inline-block;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 .highlight::after {
   content: "";
   position: absolute;
@@ -197,6 +201,7 @@ a {
 }
 
 .corner-button {
+  cursor: pointer;
   position: absolute;
   right: 0;
   top: 0;
@@ -221,6 +226,7 @@ a {
 }
 
 .form-button-outline {
+  cursor: pointer;
   border: 1px solid $mediumGray;
   width: 100%;
   border-radius: 4px;

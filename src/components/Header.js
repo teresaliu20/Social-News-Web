@@ -19,7 +19,7 @@ class Header extends React.Component {
       return (
         <header className="header">
           <Link href="/">
-            <div className="logo-wrapper">
+            <div className="logo-wrapper clickable">
               <img src="static/puzzles.png" className="logo" alt="puzzle" />
             </div>
           </Link>

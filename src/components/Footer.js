@@ -16,6 +16,8 @@ const Footer = () => (
     <div className="footer-left">
       <p>
 Have feedback on how we should improve? Contact the developers at
+        {' '}
+        {' '}
         <span className="underline">teresaliu20@gmail.com</span>
       </p>
     </div>

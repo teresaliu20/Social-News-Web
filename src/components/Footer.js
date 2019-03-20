@@ -4,7 +4,7 @@ import styles from '../styles/Footer.scss';
 
 const Footer = () => (
 
-  <div className="footer">
+  <div className="footer padded-section">
     <p>
       Built with
       {' '}
@@ -13,14 +13,12 @@ const Footer = () => (
       {' '}
       by the Puzzle Team
     </p>
-    <div className="footer-left">
-      <p>
-Have feedback on how we should improve? Contact the developers at
-        {' '}
-        {' '}
-        <span className="underline">teresaliu20@gmail.com</span>
-      </p>
-    </div>
+    <p>
+      Have feedback on how we should improve? Contact the developers at
+      {' '}
+      {' '}
+      <span className="underline">teresaliu20@gmail.com</span>
+    </p>
     <style jsx>{styles}</style>
   </div>
 );

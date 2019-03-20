@@ -97,6 +97,15 @@ class CreateCollectionForm extends Component {
     })
   }
 
+  handleRemovelink = (index) => {
+    const { links } = this.state;
+    let newLinks = [...links];
+    newLinks.splice(index, 1);
+    this.setState({
+      links: newLinks,
+    })
+  }
+
   handleGoBack = () => {
     Router.push('/profile');
   }
@@ -159,7 +168,7 @@ class CreateCollectionForm extends Component {
           label="Title"
           value={name}
           placeholder="Collection Title"
-          className="form-input"
+          className="form-input-bordered"
           onChange={(event) => this.setState({ name: event.target.value })}
           error={errors.name}
         />
@@ -178,31 +187,35 @@ class CreateCollectionForm extends Component {
           onChange={(event) => this.setState({ description: event.target.value })}
           error={errors.description}
         />
-        <div className="form-with-corner-button">
-          <h3>Links</h3>
-          <button
-            type="submit"
-            className="form-button-outline"
-            onClick={this.handleAddLink}
-          >
-            Add Link
-          </button>
-        </div>
         <div className="links-section">
         <Input
           value={linkInput}
+          label="Collection Links"
           placeholder="Enter link"
-          className="form-input"
+          className="form-input-bordered"
           onChange={(event) => this.setState({ linkInput: event.target.value })}
           error={errors.linkInput}
+          buttonClick={this.handleAddLink}
+          buttonLabel="Add Link"
         />
+        <p className="form-label">Links Added</p>
         {
-          links && links.length ? links.map((link) => (
-            <div className="link" key={shortid.generate()}>
-              <p className="text-sans-serif">&bull;&nbsp;&nbsp;<a href={link}>{link}</a></p>
+          links && links.length ? links.map((link, i) => (
+            <div className="link-url">
+              <p className="text-sans-serif"><a href={link}>{link}</a></p>
+              <button
+                type="submit"
+                className="form-button-outline circle-button "
+                onClick={() => this.handleRemovelink(i)}
+              >
+                <img
+                  alt="remove"
+                  src="static/delete.svg"
+                />
+              </button>
             </div>
           ))
-            : <div>No links right now! </div>
+            : <div className="text-sans-serif">No links right now!</div>
           }
         </div>
         <div className="form-button-group-horizontal">

@@ -64,7 +64,7 @@ class Collection extends Component {
       this.setState({
         searchUsersResults,
         error,
-        searchMessage: '',
+        searchMessage: newSearchMessage,
       });
     }
     else if (searchTypeSelected.value === searchTypes.COLLECTIONS) {
@@ -106,25 +106,23 @@ class Collection extends Component {
           <h1>Search</h1>
           <p className="form-error">{error}</p>
           <div className="search-row">
-            <div className="select-wrapper">
-              <MySelect
-                value={searchTypeSelected}
-                onChange={this.handleSearchTypeChange}
-                options={searchTypeOptions}
-                placeholder="Users"
-                theme={(theme) => ({
-                  ...theme,
-                  colors: {
-                    ...theme.colors,
-                    primary25: 'rgba(240,170,27,0.2)',
-                    primary50: 'rgba(240,170,27,0.4)',
-                    primary75: 'rgba(240,170,27,0.6)',
-                    primary: 'rgba(240,170,27,0.6)',
-                    neutral20: '#8F8D87',
-                  },
-                })}
-              />
-            </div>
+            <MySelect
+              value={searchTypeSelected}
+              onChange={this.handleSearchTypeChange}
+              options={searchTypeOptions}
+              placeholder="Users"
+              theme={(theme) => ({
+                ...theme,
+                colors: {
+                  ...theme.colors,
+                  primary25: 'rgba(240,170,27,0.2)',
+                  primary50: 'rgba(240,170,27,0.4)',
+                  primary75: 'rgba(240,170,27,0.6)',
+                  primary: 'rgba(240,170,27,0.6)',
+                  neutral20: '#8F8D87',
+                },
+              })}
+            />
             <input
               value={searchQuery}
               placeholder={`Type to search ${searchType.toLowerCase()}`}

@@ -3,4 +3,26 @@
 .create-collection-page {
   margin: auto;
   max-width: 700px;
+  position: relative;
+  .link-url {
+    position: relative;
+    margin: 20px 0 20px -50px;
+    font-size: 18px;
+    p {
+      padding: 0;
+      padding-left: 50px;
+    }
+    button {
+      display: none;
+      position: absolute;
+      top: 8px;
+      transform: translateY(-50%);
+      left: 0;
+    }
+    &:hover {
+      button {
+        display: block;
+      }
+    }
+  }
 }

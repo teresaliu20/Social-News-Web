@@ -3,20 +3,15 @@
 .search-page {
   max-width: 800px;
   margin: auto;
-  .search-row {
-    display: flex;
-    position: relative;
-    .select-wrapper {
-      width: 200px;
-      margin-right: 10px;
-      display:inline-block;
-      margin-top: 5px;
-      font-family: $font-sans-serif;
-    }
-  }
   .result-item-user {
     border-radius: 2px;
     border-bottom: 1px solid #ddd;
     padding: 10px 0;
+  }
+  .search-row {
+    display: flex;
+    input {
+      margin-left: 10px;
+    }
   }
 }

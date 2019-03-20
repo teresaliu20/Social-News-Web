@@ -11,6 +11,8 @@ a {
 
 .body {
   font-family: $font-serif, Helvetica;
+  overflow-x: none;
+  margin: 0;
   p {
     line-height: 1.5em;
   }
@@ -20,6 +22,7 @@ a {
 .layout {
   margin: 0 auto;
   padding: 40px 6%;
+  overflow-x: none;
 }
 
 .padded-section {
@@ -61,6 +64,10 @@ a {
   display: inline-block;
 }
 
+.underline {
+  text-decoration: underline;
+}
+
 .clickable {
   cursor: pointer;
 }
@@ -96,6 +103,10 @@ a {
 }
 
 /* form styles */
+
+.spacing {
+  height: 20px;
+}
 
 .form-input-wrapper {
   margin: 30px 0 20px 0;

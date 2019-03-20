@@ -1,0 +1,15 @@
+@import "base";
+
+.footer {
+  font-family: $font-sans-serif;
+  color: $mediumGray;
+  margin: 20px 2% 0 2%;
+  padding: 80px 5% 20px 5%;
+  display: flex;
+  background-color: lighten($lightGray, 5%);
+  .footer-left {
+    margin-left: 30px;
+    border-left: 1px solid $lightGray;
+    padding-left: 30px;
+  }
+}

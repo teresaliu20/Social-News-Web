@@ -54,7 +54,8 @@ class Home extends Component {
             <span role="img" aria-label="wave">👋</span>
           </h1>
           <p className="text-sans-serif">We are a platform for curating meaningful content and different perspectives and ideas. Through collections that you create, you can make share your interests and relate them to other collections.</p>
-          <h3>Explore Topics</h3>
+          <div className="spacing" />
+          <h2>Explore Topics</h2>
         </div>
         <div>
           {

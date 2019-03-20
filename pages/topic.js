@@ -64,7 +64,7 @@ class Topic extends React.Component {
     return (
       <div className="profile-page">
         <div className="padded-section">
-          <h1>{topicName}</h1>
+          <h1 className="highlight">#{topicName}</h1>
           <p className="text-sans-serif">{`${collections.length} collections`}</p>
         </div>
         <div className="collection-section">

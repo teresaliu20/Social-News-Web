@@ -12,6 +12,7 @@
   }
   .menu-item {
     padding: 5px 20px;
+    cursor: pointer;
     &:hover {
       color: lighten($darkGray, 20%);
     }
@@ -26,6 +27,7 @@
 .logo {
   height: 35px;
   margin: 15px;
+  cursor: pointer;
 }
 
 .padded-section {

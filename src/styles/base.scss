@@ -11,6 +11,8 @@ a {
 
 .body {
   font-family: $font-serif, Helvetica;
+  overflow-x: none;
+  margin: 0;
   p {
     line-height: 1.5em;
   }
@@ -20,6 +22,7 @@ a {
 .layout {
   margin: 0 auto;
   padding: 40px 6%;
+  overflow-x: none;
 }
 
 .padded-section {
@@ -61,6 +64,14 @@ a {
   display: inline-block;
 }
 
+.underline {
+  text-decoration: underline;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
 .highlight::after {
   content: "";
   position: absolute;
@@ -72,7 +83,30 @@ a {
   height: .7em;
   z-index: -1;
 }
+
+.topics-section {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.topic {
+  padding: 2px 10px;
+  background-color: lighten($accentPrimary, 20%);
+  color: white;
+  width: fit-content;
+  border-radius: 3px;
+  margin-right: 5px;
+  font-family: $font-sans-serif;
+  &:hover {
+    background-color: lighten($accentPrimary, 12%);
+  }
+}
+
 /* form styles */
+
+.spacing {
+  height: 20px;
+}
 
 .form-input-wrapper {
   margin: 30px 0 20px 0;
@@ -178,6 +212,7 @@ a {
 }
 
 .corner-button {
+  cursor: pointer;
   position: absolute;
   right: 0;
   top: 0;
@@ -202,6 +237,7 @@ a {
 }
 
 .form-button-outline {
+  cursor: pointer;
   border: 1px solid $mediumGray;
   width: 100%;
   border-radius: 4px;

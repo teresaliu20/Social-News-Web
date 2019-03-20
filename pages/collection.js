@@ -125,7 +125,7 @@ class Collection extends Component {
           {
             topics.map(topic => (
               <Link href={`/topic?name=${topic}`}>
-                <div className="topic">
+                <div className="topic clickable">
                   <span>#{topic}</span>
                 </div>
               </Link>

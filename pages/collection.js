@@ -121,6 +121,9 @@ class Collection extends Component {
           }
           <h1>{collection.name}</h1>
           <p className="collection-date">{dateCreated}</p>
+          <Link href={`/profile?id=${collection.author.id}`}>
+            <p className="collection-date underline clickable">{`By ${collection.author.first_name} ${collection.author.last_name}`}</p>
+          </Link>
           <div className="topics-section">
           {
             topics.map(topic => (

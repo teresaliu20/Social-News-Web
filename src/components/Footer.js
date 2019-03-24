@@ -20,7 +20,7 @@ const Footer = () => (
       <span className="underline">teresaliu20@gmail.com</span>
     </p>
     <p>
-Have a bug to report?
+      Have a bug to report?
       <a href="https://goo.gl/forms/82a1N1oyexfuh0fy1">
       Report it here!
         {' '}

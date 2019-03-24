@@ -70,7 +70,7 @@ class Collection extends Component {
     const { user } = this.props.globals;
     const { openRelateCollectionForm, relatedCollectionButtonText } = this.state;
 
-    const isOwnCollection = user.data ? (collection.owner === user.data.id) : false;
+    const isOwnCollection = user.data ? (collection.author.id === user.data.id) : false;
     const dateCreated = moment(collection.created).format('MMM Do YY');
 
     let collectionSection = null;

@@ -25,7 +25,6 @@ class Home extends Component {
     });
 
     const topicsWithCollections = [];
-    console.log(allTopics);
 
     await Promise.all(topicCollectionPromises)
       .then((topicCollectionResps) => {
@@ -37,15 +36,22 @@ class Home extends Component {
         });
       });
 
+    let collections = [];
+    const getAllCollections = `${configOptions.hostname}/api/collections/search`;
+      const findCollectionsResp = await axios.post(getAllCollections, { query: '' });
 
-    console.log(topicsWithCollections);
+      if (findCollectionsResp.status === 200) {
+        collections = findCollectionsResp.data.collections;
+      }
+
     return {
       topicsWithCollections,
+      collections,
     };
   }
 
   render() {
-    const { topicsWithCollections } = this.props;
+    const { collections } = this.props;
     return (
       <div className="home-page">
         <div className="padded-section">
@@ -53,11 +59,23 @@ class Home extends Component {
               Welcome to Paper!
             <span role="img" aria-label="wave">👋</span>
           </h1>
-          <p className="text-sans-serif">We are a platform for curating meaningful content and different perspectives and ideas. Through collections that you create, you can make share your interests and relate them to other collections.</p>
+          <p className="text-sans-serif">We are a platform for curating meaningful content and highlighting different perspectives and ideas. Through collections that you create, you can share your interests and relate them to other collections.</p>
           <div className="spacing" />
-          <h2>Explore Topics</h2>
         </div>
-        <div>
+        <div className="collection-section">
+          {
+            collections ? collections.map((collection) => {
+              return (
+                <CollectionCard
+                  key={collection.id}
+                  collection={collection}
+                />
+              );
+            })
+              : <div>Loading collections</div>
+          }
+        </div>
+        {/*<div>
           {
             topicsWithCollections && topicsWithCollections.map((topicWithCollection) => (
               <div className="topic-row">
@@ -83,31 +101,12 @@ class Home extends Component {
                       );
                     })
                   }
-                  {
-                    topicWithCollection.collections.map((collection) => {
-                      return (
-                        <CollectionCard
-                          key={collection.id}
-                          collection={collection}
-                        />
-                      );
-                    })
-                  }
-                  {
-                    topicWithCollection.collections.map((collection) => {
-                      return (
-                        <CollectionCard
-                          key={collection.id}
-                          collection={collection}
-                        />
-                      );
-                    })
-                  }
                 </div>
               </div>
             ))
           }
         </div>
+        */}
         <style jsx>{styles}</style>
       </div>
     );

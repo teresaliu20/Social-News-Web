@@ -71,7 +71,7 @@ class Collection extends Component {
     const { openRelateCollectionForm, relatedCollectionButtonText } = this.state;
 
     const isOwnCollection = user.data ? (collection.author.id === user.data.id) : false;
-    const dateCreated = moment(collection.created).format('MMM Do YY');
+    const dateCreated = moment(collection.created).format('MMMM Do YYYY');
 
     let collectionSection = null;
 

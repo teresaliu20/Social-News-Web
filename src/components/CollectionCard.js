@@ -10,19 +10,21 @@ const CollectionCard = ({ collection, relation, key }) => {
   const dateCreated = moment(collection.created).format('MMM Do YY');
 
   return (
-    <Link href={`/collection?id=${collection.id}`} key={key}>
-      <div className="collection-card clickable">
-        <p className="text-sans-serif text-italic highlight">{relation}</p>
-        <h2>
-          {collection.name}
-        </h2>
-        <p>
-          {collection.description && collection.description.substring(0, descriptionMaxLength)}
-        </p>
-        <p className="collection-date">{dateCreated}</p>
-        <style jsx>{styles}</style>
-      </div>
-    </Link>
+    <div className="collection-card-wrapper">
+      <Link href={`/collection?id=${collection.id}`} key={key}>
+        <div className="collection-card clickable">
+          <p className="text-sans-serif text-italic highlight">{relation}</p>
+          <h2>
+            {collection.name}
+          </h2>
+          <p>
+            {collection.description && collection.description.substring(0, descriptionMaxLength)}
+          </p>
+          <p className="collection-date">{dateCreated}</p>
+        </div>
+      </Link>
+      <style jsx>{styles}</style>
+    </div>
   );
 };
 

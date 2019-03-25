@@ -12,13 +12,13 @@ import CollectionCard from '../src/components/CollectionCard';
 const configOptions = config[process.env.NODE_ENV || 'development'];
 
 const searchTypes = {
-  'USERS': 'Users',
   'COLLECTIONS': 'Collections',
+  'USERS': 'Users',
 };
 
 const searchTypeOptions = [
-  { value: searchTypes.USERS, label: 'Users' },
   { value: searchTypes.COLLECTIONS, label: 'Collections' },
+  { value: searchTypes.USERS, label: 'Users' },
 ];
 
 

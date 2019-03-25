@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
+import validURL from '../src/helpers/validUrlHelper';
 import { connect } from 'react-redux';
 import shortid from 'shortid';
 import Input from '../src/components/Input';
@@ -36,6 +37,7 @@ class ReadingList extends Component {
   state = {
     links: [],
     linkInput: '',
+    error: '',
   }
 
   componentDidUpdate(prevProps) {
@@ -55,20 +57,32 @@ class ReadingList extends Component {
 
   handleAddLink = async () => {
     const { user } = this.props.globals;
-    const { linkInput } = this.state;
-    const postReadingListUrl = `${configOptions.hostname}/api/users/reading-list`;
-    const postLinkResp = await axios.post(postReadingListUrl, {
-      user_id: user.data.id,
-      url: linkInput,
-    });
+    const { linkInput, links } = this.state;
 
-    if (postLinkResp.status === 200 && postLinkResp.data) {
-      const newLink = postLinkResp.data;
-      const links = [...this.state.links, newLink];
-      this.setState({
-        links,
-        linkInput: '',
+    const linkInputClean = linkInput.trim()
+
+    if (validURL(linkInputClean)) {
+      
+      const postReadingListUrl = `${configOptions.hostname}/api/users/reading-list`;
+      const postLinkResp = await axios.post(postReadingListUrl, {
+        user_id: user.data.id,
+        url: linkInput,
       });
+
+      if (postLinkResp.status === 200 && postLinkResp.data) {
+        const newLink = postLinkResp.data;
+        const links = [...this.state.links, newLink];
+        this.setState({
+          links,
+          linkInput: '',
+          error: '',
+        });
+      }
+    }
+    else {
+      this.setState({
+        error: 'Link is not a valid URL.',
+      })
     }
   }
 
@@ -95,7 +109,7 @@ class ReadingList extends Component {
     });
   }
 
-  handleCheckLink = async (linkSelected) => {
+  handleMarkAsRead = async (linkSelected) => {
 
     const { linkInput } = this.state;
     const postReadingListUrl = `${configOptions.hostname}/api/users/reading-list`;
@@ -119,7 +133,7 @@ class ReadingList extends Component {
   }
 
   render() {
-    const { links, linkInput } = this.state;
+    const { links, linkInput, error } = this.state;
 
     return (
       <div className="collection-page">
@@ -136,7 +150,7 @@ class ReadingList extends Component {
                 },
                 {
                   buttonType: 'check',
-                  handlePress: this.handleCheckLink,
+                  handlePress: this.handleMarkAsRead,
                   label: 'Mark as read'
                 }
               ]}
@@ -155,6 +169,7 @@ class ReadingList extends Component {
               value={linkInput}
               placeholder="Enter link"
               className="form-input"
+              error={error}
               onChange={(event) => this.setState({ linkInput: event.target.value })}
             />
           </div>

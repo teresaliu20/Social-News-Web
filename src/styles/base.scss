@@ -50,6 +50,7 @@ a {
 
 .text-sans-serif {
   font-family: $font-sans-serif;
+  line-height: 1.5em;
 }
 
 .text-light-gray {
@@ -174,7 +175,7 @@ a {
   margin: 5px 0;
 }
 
-.form-textarea-temp {
+.form-textarea {
   padding: 14px 10px;
   font-family: $font-sans-serif;
   border-radius: 4px;
@@ -186,19 +187,6 @@ a {
   &:focus {
     outline: none;
     border: 1px solid #f0aa1b
-  }
-}
-
-.form-textarea {
-  padding: 14px 10px;
-  font-family: $font-sans-serif;
-  border: 2px solid $lightGray;
-  font-size: 18px;
-  width: 100%;
-  height: 250px;
-  line-height: 1.5em;
-  &:focus {
-    outline: none;
   }
 }
 
@@ -289,7 +277,9 @@ a {
 .collection-section {
   display: flex;
   flex-flow: row wrap;
+  margin: auto
 }
+
 
 .circle-button {
   height: 30px;

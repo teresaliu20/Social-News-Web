@@ -178,8 +178,10 @@ class EditCollectionForm extends Component {
     const newErrors = { ...this.state.errors };
     let newLinkError = ""
 
-    if (validURL(linkInput)) {
-      const newLinks = [...links, linkInput]
+    const linkInputClean = linkInput.trim()
+
+    if (validURL(linkInputClean)) {
+      const newLinks = [...links, linkInputClean]
       this.setState({links: newLinks})      
     }
     else {
@@ -189,6 +191,7 @@ class EditCollectionForm extends Component {
 
     newErrors.linkInput = newLinkError;
     this.setState({
+      linkInput: '',
       errors: newErrors,
     })
   }
@@ -273,14 +276,14 @@ class EditCollectionForm extends Component {
             className="form-button-outline"
             onClick={this.handleGoBack}
           >
-            Go Back
+            Cancel
           </button>
           <button
             type="submit"
             className="form-button-outline"
             onClick={this.handleEditCollection}
           >
-            Edit Collection
+            Save Collection
           </button>
         </div>
         <style jsx>{styles}</style>

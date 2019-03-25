@@ -65,8 +65,8 @@ class Signup extends Component {
       newErrors.username = 'Username cannot be blank';
       isValidForm = false;
     }
-    else if (username.length < 8) {
-      newErrors.username = 'Username must be at least 8 characters';
+    else if (username.length < 4) {
+      newErrors.username = 'Username must be at least 4 characters';
       isValidForm = false;
     }
 

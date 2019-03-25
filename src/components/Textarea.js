@@ -9,7 +9,7 @@ const Textarea = ({ value, placeholder, onChange, label, error }) => (
     <textarea
       value={value}
       placeholder={placeholder}
-      className="form-textarea-temp"
+      className="form-textarea"
       onChange={onChange}
     />
     {

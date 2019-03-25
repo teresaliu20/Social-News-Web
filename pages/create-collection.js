@@ -82,8 +82,9 @@ class CreateCollectionForm extends Component {
     const newErrors = { ...this.state.errors };
     let newLinkError = ""
 
-    if (validURL(linkInput)) {
-      const newLinks = [...links, linkInput]
+    const linkInputClean = linkInput.trim()
+    if (validURL(linkInputClean)) {
+      const newLinks = [...links, linkInputClean]
       this.setState({links: newLinks})      
     }
     else {
@@ -93,6 +94,7 @@ class CreateCollectionForm extends Component {
 
     newErrors.linkInput = newLinkError;
     this.setState({
+      linkInput: '',
       errors: newErrors,
     })
   }

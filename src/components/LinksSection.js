@@ -22,7 +22,6 @@ class LinksSection extends React.Component {
       return (
         <div className="link" key={shortid.generate()}>
           {
-            validURL(link.url) && (
             <div>
               <MicrolinkCard
                 url={link.url}
@@ -47,12 +46,11 @@ class LinksSection extends React.Component {
                 }
               </div>
             </div>
-            )
           }
         </div>
       );
     })
-      : <div>No links right now! </div>
+      : <div className="text-sans-serif no-links-text">No links right now! Go out and browse collections to add links to your reading list or add one below.</div>
     }
         <style jsx>{styles}</style>
       </div>

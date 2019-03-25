@@ -17,21 +17,7 @@ const configOptions = config[process.env.NODE_ENV || 'development'];
 
 
 class ReadingList extends Component {
-  static async getInitialProps({ req, query }) {
-
-  }
-
-  componentWillMount = async () => {
-    const { user } = this.props.globals;
-    const getReadingListUrl = `${configOptions.hostname}/api/users/${user.data.id}/reading-list`;
-    const readingListResp = await axios.get(getReadingListUrl);
-
-    if (readingListResp.status === 200 && readingListResp.data) {
-      const links = readingListResp.data;
-      this.setState({
-        links,
-      });
-    }
+  static async getInitialProps(appContext) {
   }
 
   state = {
@@ -40,23 +26,35 @@ class ReadingList extends Component {
     error: '',
   }
 
-  componentDidUpdate(prevProps) {
-    const { globals } = this.props;
-    if (!isEmpty(prevProps.globals.user.data) && isEmpty(globals.user.data)) {
+  componentDidMount = async () => {
+    const { user } = this.props;
+    if (!user.data || isEmpty(user.data)) {
       Router.push('/login');
+    }
+
+    const getReadingListUrl = `${configOptions.hostname}/api/users/${user.data.id}/reading-list`;
+    const readingListResp = await axios.get(getReadingListUrl);
+
+    if (readingListResp.status === 200 && readingListResp.data) {
+
+      const links = readingListResp.data;
+      this.setState({
+        links,
+      });
     }
   }
 
-  componentDidMount() {
-    const { globals } = this.props;
-    if (!globals.user.data || isEmpty(globals.user.data)) {
+  componentDidUpdate(prevProps) {
+    const { user } = this.props;
+    if (!isEmpty(prevProps.user.data) && isEmpty(user.data)) {
       Router.push('/login');
     }
+
   }
 
 
   handleAddLink = async () => {
-    const { user } = this.props.globals;
+    const { user } = this.props;
     const { linkInput, links } = this.state;
 
     const linkInputClean = linkInput.trim()
@@ -181,11 +179,11 @@ class ReadingList extends Component {
 }
 
 ReadingList.propTypes = {
-  globals: PropTypes.object,
+  user: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-  globals: state,
+  user: state.user,
 });
 
 

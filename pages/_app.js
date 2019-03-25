@@ -3,8 +3,8 @@ import { withRouter } from 'next/router';
 import { Provider } from 'react-redux';
 import App, { Container } from 'next/app';
 import Layout from 'components/Layout';
-import {createPersistStore} from 'store/createPersistStore';
-import {PersistGate} from 'redux-persist/integration/react';
+import { createPersistStore } from 'store/createPersistStore';
+import { PersistGate } from 'redux-persist/integration/react';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {

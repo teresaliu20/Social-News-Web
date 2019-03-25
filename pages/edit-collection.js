@@ -68,15 +68,15 @@ class EditCollectionForm extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { globals } = this.props;
-    if (!isEmpty(prevProps.globals.user.data) && isEmpty(globals.user.data)) {
+    const { user } = this.props;
+    if (!isEmpty(prevProps.user.data) && isEmpty(user.data)) {
       Router.push('/login');
     }
   }
 
   componentDidMount() {
-    const { globals, allTopics } = this.props;
-    if (!globals.user.data || isEmpty(globals.user.data)) {
+    const { user, allTopics } = this.props;
+    if (!user.data || isEmpty(user.data)) {
       Router.push('/login');
     }
 
@@ -142,7 +142,7 @@ class EditCollectionForm extends Component {
     const isValid = this.validateForm();
 
     if (isValid) {
-      const { user } = this.props.globals;
+      const { user } = this.props;
       const { name, description, links, collectionId, topicsSelected } = this.state;
       const topics = topicsSelected.map(topicSelected => topicSelected.value);
       this.props.editCollection(name, user.data.id, description, links, collectionId, topics );
@@ -293,7 +293,7 @@ class EditCollectionForm extends Component {
 }
 
 EditCollectionForm.propTypes = {
-  globals: PropTypes.object,
+  user: PropTypes.object,
   editCollection: PropTypes.func,
   deleteCollection: PropTypes.func,
   collection: PropTypes.object,
@@ -302,7 +302,7 @@ EditCollectionForm.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  globals: state,
+  user: state.user,
 });
 
 const mapDispatchToProps = (dispatch) => {

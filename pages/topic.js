@@ -37,12 +37,12 @@ class Topic extends React.Component {
   }
 
   componentDidMount() {
-    const { globals, isOwnProfile } = this.props;
-    if (isOwnProfile && (!globals.user.data || isEmpty(globals.user.data))) {
+    const { user, isOwnProfile } = this.props;
+    if (isOwnProfile && (!user.data || isEmpty(user.data))) {
       Router.push('/login');
     }
 
-    const { id } = globals.user.data;
+    const { id } = user.data;
 
     if (id) {
       this.props.getCollections(id);
@@ -50,8 +50,8 @@ class Topic extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { globals, isOwnProfile } = this.props;
-    if (isOwnProfile && !isEmpty(prevProps.globals.user.data) && isEmpty(globals.user.data)) {
+    const { user, isOwnProfile } = this.props;
+    if (isOwnProfile && !isEmpty(prevProps.user.data) && isEmpty(user.data)) {
       Router.push('/login');
     }
   }
@@ -87,7 +87,7 @@ class Topic extends React.Component {
 }
 
 Topic.propTypes = {
-  globals: PropTypes.object,
+  user: PropTypes.object,
   getCollections: PropTypes.func,
   isOwnProfile: PropTypes.bool,
   userViewing: PropTypes.object,
@@ -96,7 +96,7 @@ Topic.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-  globals: state,
+  user: state.user,
 });
 
 

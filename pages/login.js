@@ -24,14 +24,14 @@ class Login extends Component {
   state = initialState
 
   componentDidUpdate(prevProps) {
-    const { globals } = this.props;
-    if (isEmpty(prevProps.globals.user.data) && !isEmpty(globals.user.data)) {
+    const { user } = this.props;
+    if (isEmpty(prevProps.user.data) && !isEmpty(user.data)) {
       Router.push('/profile');
     }
 
-    else if (prevProps.globals.user.pending && !globals.user.pending && globals.user.error) {
+    else if (prevProps.user.pending && !user.pending && user.error) {
       const newErrors = { ...this.state.errors };
-      newErrors.general = globals.user.error;
+      newErrors.general = user.error;
       this.setState({
         errors: newErrors,
       });
@@ -78,7 +78,6 @@ class Login extends Component {
 
   render() {
     const { username, password, errors } = this.state;
-    const { globals } = this.props;
     return (
       <div className="login-page">
         <h1>Login</h1>
@@ -121,11 +120,11 @@ class Login extends Component {
 
 Login.propTypes = {
   login: PropTypes.func,
-  globals: PropTypes.object,
+  user: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-  globals: state,
+  user: state.user,
 });
 
 const mapDispatchToProps = (dispatch) => {

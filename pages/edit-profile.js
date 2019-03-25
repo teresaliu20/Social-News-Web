@@ -21,19 +21,17 @@ class EditProfile extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { globals } = this.props;
-    if (!isEmpty(prevProps.globals.user.data) && isEmpty(globals.user.data)) {
+    const { user } = this.props;
+    if (!isEmpty(prevProps.user.data) && isEmpty(user.data)) {
       Router.push('/login');
     }
   }
 
   componentDidMount() {
-    const { globals } = this.props;
-    if (!globals.user.data || isEmpty(globals.user.data)) {
+    const { user } = this.props;
+    if (!user.data || isEmpty(user.data)) {
       Router.push('/login');
     }
-    const { user } = this.props.globals;
-
     const { first_name, last_name, email, bio } = user.data;
     this.setState({
       firstName: first_name,
@@ -44,7 +42,7 @@ class EditProfile extends React.Component {
   }
 
   handleEditProfile = () => {
-    const { user } = this.props.globals;
+    const { user } = this.props;
     const { firstName, lastName, email, bio } = this.state;
     this.props.editProfile({
       firstName,
@@ -112,12 +110,12 @@ class EditProfile extends React.Component {
 }
 
 EditProfile.propTypes = {
-  globals: PropTypes.object,
+  user: PropTypes.object,
 };
 
 
 const mapStateToProps = (state) => ({
-  globals: state,
+  user: state.user,
 });
 
 

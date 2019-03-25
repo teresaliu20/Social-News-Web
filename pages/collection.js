@@ -53,7 +53,7 @@ class Collection extends Component {
   }
 
   handleAddReadingList = async (linkSelected) => {
-    const { user } = this.props.globals;
+    const { user } = this.props;
     const postReadingListUrl = `${configOptions.hostname}/api/users/reading-list`;
     const postLinkResp = await axios.post(postReadingListUrl, {
       user_id: user.data.id,
@@ -67,7 +67,7 @@ class Collection extends Component {
 
   render() {
     const { collection, links, relatedCollections, topics } = this.props;
-    const { user } = this.props.globals;
+    const { user } = this.props;
     const { openRelateCollectionForm, relatedCollectionButtonText } = this.state;
 
     const isOwnCollection = user.data ? (collection.author.id === user.data.id) : false;
@@ -184,7 +184,7 @@ class Collection extends Component {
 }
 
 Collection.propTypes = {
-  globals: PropTypes.object,
+  user: PropTypes.object,
   collection: PropTypes.object,
   links: PropTypes.arrayOf(PropTypes.object),
   relatedCollections: PropTypes.arrayOf(PropTypes.object),
@@ -192,7 +192,7 @@ Collection.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  globals: state,
+  user: state.user,
 });
 
 export default connect(mapStateToProps)(Collection);

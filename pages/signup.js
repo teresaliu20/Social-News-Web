@@ -35,14 +35,14 @@ class Signup extends Component {
   state = initialState
 
   componentDidUpdate(prevProps) {
-    const { globals } = this.props;
-    if (isEmpty(prevProps.globals.user.data) && !isEmpty(globals.user.data)) {
+    const { user } = this.props;
+    if (isEmpty(prevProps.user.data) && !isEmpty(user.data)) {
       Router.push('/profile');
     }
 
-    else if (prevProps.globals.user.pending && !globals.user.pending && globals.user.error) {
+    else if (prevProps.user.pending && !user.pending && user.error) {
       const newErrors = { ...this.state.errors };
-      newErrors.general = globals.user.error;
+      newErrors.general = user.error;
       this.setState({
         errors: newErrors,
       });
@@ -198,11 +198,11 @@ class Signup extends Component {
 
 Signup.propTypes = {
   signup: PropTypes.func,
-  globals: PropTypes.object,
+  user: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
-  globals: state,
+  user: state.user,
 });
 
 const mapDispatchToProps = (dispatch) => {

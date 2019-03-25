@@ -56,12 +56,12 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
-    const { globals, isOwnProfile } = this.props;
-    if (isOwnProfile && (!globals.user.data || isEmpty(globals.user.data))) {
+    const { user, isOwnProfile } = this.props;
+    if (isOwnProfile && (!user.data || isEmpty(user.data))) {
       Router.push('/login');
     }
 
-    const { id } = globals.user.data;
+    const { id } = user.data;
 
     if (id) {
       this.props.getCollections(id);
@@ -69,8 +69,8 @@ class Profile extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { globals, isOwnProfile } = this.props;
-    if (isOwnProfile && !isEmpty(prevProps.globals.user.data) && isEmpty(globals.user.data)) {
+    const { user, isOwnProfile } = this.props;
+    if (isOwnProfile && !isEmpty(prevProps.user.data) && isEmpty(user.data)) {
       Router.push('/login');
     }
   }
@@ -80,9 +80,9 @@ class Profile extends React.Component {
     const { isOwnProfile } = this.props;
 
     // set collections and user to the current logged in user by default
-    let { collections } = this.props.globals;
+    let { collections } = this.props;
 
-    let userInfo = this.props.globals.user.data;
+    let userInfo = this.props.user.data;
 
     // if user is not viewing their own profile, grab collections and user from initial props
     // created by get request to another user's profile
@@ -152,7 +152,8 @@ class Profile extends React.Component {
 }
 
 Profile.propTypes = {
-  globals: PropTypes.object,
+  user: PropTypes.object,
+  collections: PropTypes.arrayOf(PropTypes.object),
   getCollections: PropTypes.func,
   isOwnProfile: PropTypes.bool,
   userViewing: PropTypes.object,
@@ -161,7 +162,8 @@ Profile.propTypes = {
 
 
 const mapStateToProps = (state) => ({
-  globals: state,
+  user: state.user,
+  collections: state.collections,
 });
 
 

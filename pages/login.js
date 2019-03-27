@@ -109,7 +109,7 @@ class Login extends Component {
           </button>
         </div>
         <p>
-          New here?
+          New here?{' '}
           <Link prefetch href="/signup">Sign up</Link>
         </p>
         <style jsx>{styles}</style>

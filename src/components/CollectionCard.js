@@ -4,11 +4,16 @@ import PropTypes from 'prop-types';
 import styles from 'styles/CollectionCard.scss';
 import moment from 'moment';
 
-const descriptionMaxLength = 200;
-
 const CollectionCard = ({ collection, relation, key }) => {
-  const dateCreated = moment(collection.created).format('MMM Do YY');
+  const dateCreated = moment(collection.created).format('MMMM Do YYYY');
 
+  const descriptionMaxLength = 230;
+
+  let trimmedDescription = '';
+  if (collection.description) {
+    trimmedDescription = collection.description.substr(0, descriptionMaxLength);
+    trimmedDescription = trimmedDescription.substr(0, Math.min(trimmedDescription.length, trimmedDescription.lastIndexOf(' ')));
+  }
   return (
     <div className="collection-card-wrapper">
       <Link href={`/collection?id=${collection.id}`} key={key}>
@@ -18,7 +23,7 @@ const CollectionCard = ({ collection, relation, key }) => {
             {collection.name}
           </h2>
           <p>
-            {collection.description && collection.description.substring(0, descriptionMaxLength)}
+            {`${trimmedDescription}...`}
           </p>
           <p className="collection-date">{dateCreated}</p>
         </div>

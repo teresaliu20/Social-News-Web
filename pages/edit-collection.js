@@ -5,8 +5,8 @@ import Router from 'next/router';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
-import MySelect from '../src/components/MySelect';
 import { connect } from 'react-redux';
+import MySelect from '../src/components/MySelect';
 import Input from '../src/components/Input';
 import Textarea from '../src/components/Textarea';
 import styles from '../src/styles/CreateCollectionForm.scss';
@@ -36,13 +36,11 @@ const initialState = {
 };
 
 class EditCollectionForm extends Component {
-
   static async getInitialProps({ req, query }) {
     if (!query.id) return;
 
     let collection = {};
     let links = [];
-    let relatedCollections = [];
     let allTopics = [];
 
     const collectionUrl = `${configOptions.hostname}/api/collections/${query.id}`;
@@ -57,7 +55,7 @@ class EditCollectionForm extends Component {
     const allTopicsResp = await axios.get(allTopicsUrl);
 
     if (allTopicsResp.status === 200) {
-      allTopics = allTopicsResp.data
+      allTopics = allTopicsResp.data;
     }
 
     return {
@@ -80,25 +78,25 @@ class EditCollectionForm extends Component {
       Router.push('/login');
     }
 
-    const newTopicOptions = allTopics.map(topic => ({
+    const newTopicOptions = allTopics.map((topic) => ({
       label: topic,
       value: topic,
-    }))
+    }));
 
     this.setState({
       topicOptions: newTopicOptions,
-    })
+    });
 
     if (!isEmpty(this.props.collection)) {
-      const {collection, links} = this.props;
-      const linkUrls = links.map(link => link.url);
+      const { collection, links } = this.props;
+      const linkUrls = links.map((link) => link.url);
 
       this.setState({
         name: collection.name,
         description: collection.description,
         links: linkUrls,
-        collectionId: collection.id
-      })
+        collectionId: collection.id,
+      });
     }
   }
 
@@ -134,18 +132,17 @@ class EditCollectionForm extends Component {
   }
 
   handleEditCollection = () => {
-    
     this.setState({
-      errors: {...initialErrors}
-    })
+      errors: { ...initialErrors },
+    });
 
     const isValid = this.validateForm();
 
     if (isValid) {
       const { user } = this.props;
       const { name, description, links, collectionId, topicsSelected } = this.state;
-      const topics = topicsSelected.map(topicSelected => topicSelected.value);
-      this.props.editCollection(name, user.data.id, description, links, collectionId, topics );
+      const topics = topicsSelected.map((topicSelected) => topicSelected.value);
+      this.props.editCollection(name, user.data.id, description, links, collectionId, topics);
       Router.back();
     }
   }
@@ -153,47 +150,46 @@ class EditCollectionForm extends Component {
   handleTopicListChange = (topicList) => {
     this.setState({
       topicsSelected: topicList,
-    })
+    });
   }
 
   handleDeleteCollection = () => {
     const { collectionId } = this.state;
-    this.props.deleteCollection(collectionId)
-    Router.push('/profile')
+    this.props.deleteCollection(collectionId);
+    Router.push('/profile');
   }
 
   handleRemovelink = (index) => {
     const { links } = this.state;
-    let newLinks = [...links];
+    const newLinks = [...links];
     newLinks.splice(index, 1);
     this.setState({
       links: newLinks,
-    })
-    
+    });
   }
 
   handleAddLink = () => {
-    const {links, linkInput} = this.state;
+    const { links, linkInput } = this.state;
 
     const newErrors = { ...this.state.errors };
-    let newLinkError = ""
+    let newLinkError = '';
 
-    const linkInputClean = linkInput.trim()
+    const linkInputClean = linkInput.trim();
 
     if (validURL(linkInputClean)) {
-      const newLinks = [...links, linkInputClean]
-      this.setState({links: newLinks})      
+      const newLinks = [...links, linkInputClean];
+      this.setState({ links: newLinks });
     }
     else {
       const newErrors = { ...this.state.errors };
-      newLinkError = "Link is not a valid URL."
+      newLinkError = 'Link is not a valid URL.';
     }
 
     newErrors.linkInput = newLinkError;
     this.setState({
       linkInput: '',
       errors: newErrors,
-    })
+    });
   }
 
   handleGoBack = () => {
@@ -204,7 +200,7 @@ class EditCollectionForm extends Component {
     const { name, description, links, linkInput, errors, topicsSelected, topicOptions } = this.state;
     return (
       <div className="create-collection-page">
-        
+
         <div className="form-with-corner-button">
           <h1>Edit New Collection</h1>
           <button
@@ -213,7 +209,7 @@ class EditCollectionForm extends Component {
           >
             Delete Collection
           </button>
-    
+
         </div>
         <Input
           label="Title"
@@ -224,12 +220,17 @@ class EditCollectionForm extends Component {
           error={errors.name}
         />
         <p className="form-label">Topics</p>
-        <MySelect
-          value={topicsSelected}
-          onChange={this.handleTopicListChange}
-          options={topicOptions}
-          isMulti
-        />
+        {
+          (topicOptions && topicOptions.length) && (
+          <MySelect
+            value={topicsSelected}
+            onChange={this.handleTopicListChange}
+            options={topicOptions}
+            isMulti
+          />
+          )
+        }
+
         <Textarea
           label="Description"
           value={description}
@@ -238,20 +239,20 @@ class EditCollectionForm extends Component {
           onChange={(event) => this.setState({ description: event.target.value })}
           error={errors.description}
         />
-        
+
         <div className="links-section">
-        <Input
-          value={linkInput}
-          label="Collection Links"
-          placeholder="Enter link"
-          className="form-input-bordered"
-          onChange={(event) => this.setState({ linkInput: event.target.value })}
-          error={errors.linkInput}
-          buttonClick={this.handleAddLink}
-          buttonLabel="Add Link"
-        />
-        <p className="form-label">Links Added</p>
-        {
+          <Input
+            value={linkInput}
+            label="Collection Links"
+            placeholder="Enter link"
+            className="form-input-bordered"
+            onChange={(event) => this.setState({ linkInput: event.target.value })}
+            error={errors.linkInput}
+            buttonClick={this.handleAddLink}
+            buttonLabel="Add Link"
+          />
+          <p className="form-label">Links Added</p>
+          {
           links.length ? links.map((link, i) => (
             <div className="link-url" key={i}>
               <p className="text-sans-serif"><a href={link}>{link}</a></p>

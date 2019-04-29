@@ -1,0 +1,36 @@
+@import "base";
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  height: 100vh;
+  width: 100vw;
+  z-index: 100;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 60vh;
+  width: 40vw;
+  padding: 2%;
+  border-radius: 5px;
+  background-color: white;
+  z-index: 101;
+}
+
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 5px;
+  transform: translateX(-100%);
+  height: 15px;
+  width: 15px;
+}

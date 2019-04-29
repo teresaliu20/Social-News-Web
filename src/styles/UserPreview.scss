@@ -1,0 +1,17 @@
+@import 'base';
+
+.user-item {
+  border-radius: 2px;
+  border-bottom: 1px solid #ddd;
+  padding: 6px 0;
+  .name {
+    margin-bottom: 5px;
+  }
+  .username {
+    padding: 0;
+    margin-top: 0;
+  }
+  &:hover {
+    opacity: 0.7;
+  }
+}

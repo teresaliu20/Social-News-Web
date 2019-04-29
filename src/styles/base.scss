@@ -13,6 +13,7 @@ a {
   font-family: $font-serif, Helvetica;
   overflow-x: none;
   margin: 0;
+  height:100%;
   p {
     line-height: 1.5em;
   }
@@ -74,6 +75,14 @@ a {
   cursor: pointer;
 }
 
+.underline-clickable {
+  cursor: pointer;
+  text-decoration: underline;
+  &:hover {
+    color: $darkGray;
+  }
+}
+
 .highlight::after {
   content: "";
   position: absolute;
@@ -102,6 +111,23 @@ a {
   &:hover {
     background-color: lighten($accentPrimary, 12%);
   }
+}
+
+.follow-button {
+  padding: 2px 10px;
+  background-color: lighten($accentPrimary, 20%);
+  color: white;
+  width: fit-content;
+  border-radius: 3px;
+  margin-right: 5px;
+  font-family: $font-sans-serif;
+  &:hover {
+    background-color: lighten($accentPrimary, 12%);
+  }
+}
+
+.following {
+  background-color: lighten($accentPrimary, 10%);
 }
 
 /* form styles */
@@ -228,6 +254,17 @@ a {
   }
 }
 
+.corner-menu {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 10px;
+  text-align: right;
+  width: fit-content !important;
+  color: $mediumGray;
+  font-family: $font-sans-serif;
+}
+
 .corner-button {
   cursor: pointer;
   position: absolute;
@@ -258,7 +295,7 @@ a {
   border: 1px solid $mediumGray;
   width: 100%;
   border-radius: 4px;
-  padding: 15px;
+  padding: 10px;
   margin: 10px 0;
   font-family: $font-sans-serif;
   &:hover {
@@ -294,4 +331,14 @@ a {
     width: 100%;
     height: 100%;
   }
+}
+
+.scrollable {
+  overflow-y: scroll;
+}
+
+.modal-header {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 0;
 }

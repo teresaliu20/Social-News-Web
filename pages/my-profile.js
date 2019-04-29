@@ -17,14 +17,14 @@ import config from '../src/config';
 const configOptions = config[process.env.NODE_ENV || 'development'];
 
 
-class Profile extends React.Component {
+class MyProfile extends React.Component {
 
   state = {
     followingsModalOpen: false,
     followersModalOpen: false,
     followers: [],
-    followings: [],
-    isFollowing: false
+    isFollowing: false,
+    imageUploaderOpen: false,
   }
 
   openFollowingsModal = () => {
@@ -51,6 +51,43 @@ class Profile extends React.Component {
     })
   }
 
+  handleOpenImageUploader = () => {
+    this.setState({
+      imageUploaderOpen: true,
+    })
+  }
+
+  handleEditProfileImage = async (e) => {
+    const { user } = this.props;
+    const files = Array.from(e.target.files)
+
+    if (files.length > 1) {
+      const msg = 'Only 1 image can be uploaded at a time'
+      alert(msg)
+    }
+
+    const image = files[0]
+
+    const formData = new FormData();
+    formData.append('file', image)
+
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    }
+
+    const url = `${configOptions.hostname}/api/users/${user.data.id}/profilepicture`;
+
+    const followersResp = await axios.post(url, formData, config);
+
+    if (followersResp.status === 200) {
+      this.setState({
+        followers: followersResp.data
+      })
+    }
+  }
+
   componentDidMount = async () => {
     const { user, followings } = this.props;
     if (!user.data || isEmpty(user.data)) {
@@ -63,6 +100,16 @@ class Profile extends React.Component {
       this.props.getCollections(id);
       this.props.getFollowings(id);
     }
+
+    const url = `${configOptions.hostname}/api/users/${user.data.id}/followers`;
+
+    const followersResp = await axios.get(url);
+
+    if (followersResp.status === 200) {
+      this.setState({
+        followers: followersResp.data
+      })
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -74,9 +121,9 @@ class Profile extends React.Component {
 
 
   render() {
-    const { followings, followers } = this.props;
+    const { followings } = this.props;
 
-    const { followingsModalOpen, followersModalOpen } = this.state;
+    const { followingsModalOpen, followersModalOpen, followers, imageUploaderOpen } = this.state;
 
     // set collections and user to the current logged in user by default
     let { collections } = this.props;
@@ -93,11 +140,15 @@ class Profile extends React.Component {
     return (
       <div className="profile-page">
         <div className="padded-section">
-          {/*
+          {
           <div className="profile-image-wrapper">
-              <img className="profile-image" src="https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/46011115_1144893639011707_5262389549639663616_o.jpg?_nc_cat=104&_nc_ht=scontent-lax3-1.xx&oh=c722ca9556484c970297dbb977c2e7f0&oe=5D1423DE" />
+            <img className="profile-image" src="static/blankprofile.png"/>
+            <div className="edit-profile-hover clickable" >
+            <label for="single">Edit</label>
+              <input type='file' id='single' accept="image/png, image/jpeg" onChange={(e) => this.handleEditProfileImage(e)}/> 
+            </div>
           </div>
-          */}
+          }
           {
            (
             <div className="corner-menu">
@@ -117,8 +168,10 @@ class Profile extends React.Component {
             </div>
             )
           }
+          <div className="profile-info">
           <h1>{`${first_name} ${last_name}`}</h1>
           <p className="text-sans-serif">{bio}</p>
+          </div>
         </div>
         <div className="collections-section padded-section form-with-corner-button">
           <h2>Collections</h2>
@@ -176,7 +229,7 @@ class Profile extends React.Component {
   }
 }
 
-Profile.propTypes = {
+MyProfile.propTypes = {
   user: PropTypes.object,
   collections: PropTypes.arrayOf(PropTypes.object),
   getCollections: PropTypes.func,
@@ -202,4 +255,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);

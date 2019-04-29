@@ -12,6 +12,7 @@ import Textarea from '../src/components/Textarea';
 import validURL from '../src/helpers/validUrlHelper';
 import styles from '../src/styles/CreateCollectionForm.scss';
 import { createNewCollectionAction } from '../src/actions/collections';
+import permissionOptions from '../src/constants/collectionPermissions';
 import config from '../src/config';
 
 const configOptions = config[process.env.NODE_ENV || 'development'];
@@ -31,6 +32,8 @@ const initialState = {
   collectionId: 0,
   topicsSelected: [],
   topicOptions: [],
+  permissionSelected: permissionOptions[0],
+  permissionOptions,
   errors: initialErrors,
 };
 
@@ -109,7 +112,7 @@ class CreateCollectionForm extends Component {
   }
 
   handleGoBack = () => {
-    Router.push('/profile');
+    Router.push('/my-profile');
   }
 
   validateForm = () => {
@@ -154,15 +157,25 @@ class CreateCollectionForm extends Component {
 
     if (isValid) {
       const { user } = this.props;
-      const { name, description, links, topicsSelected } = this.state;
+      const { name, description, links, topicsSelected, permissionSelected } = this.state;
       const topics = topicsSelected.map(topicSelected => topicSelected.value);
-      this.props.createNewCollection(name, user.data.id, description, links, topics);
-      Router.push('/profile');
+
+      const payload = {
+        name,
+        user_id: user.data.id,
+        description,
+        links,
+        topics,
+        permission: permissionSelected.value
+      }
+
+      this.props.createNewCollection(payload);
+      Router.push('/my-profile');
     }
   }
 
   render() {
-    const { name, description, links, linkInput, errors, topicsSelected, topicOptions } = this.state;
+    const { name, description, links, linkInput, errors, topicsSelected, topicOptions, permissionSelected, permissionOptions } = this.state;
     return (
       <div className="create-collection-page">
         <h1>Write New Collection</h1>
@@ -174,12 +187,18 @@ class CreateCollectionForm extends Component {
           onChange={(event) => this.setState({ name: event.target.value })}
           error={errors.name}
         />
-        <p className="form-label">Topics</p>
         <MySelect
+          label="Topics"
           value={topicsSelected}
           onChange={this.handleTopicListChange}
           options={topicOptions}
           isMulti
+        />
+        <MySelect
+          label="Permissions"
+          value={permissionSelected}
+          onChange={this.handlePermissionChanged}
+          options={permissionOptions}
         />
         <Textarea
           label="Description"
@@ -253,7 +272,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createNewCollection: (name, userId, description, links, topics) => dispatch(createNewCollectionAction(name, userId, description, links, topics)),
+    createNewCollection: (payload) => dispatch(createNewCollectionAction(payload)),
   };
 };
 

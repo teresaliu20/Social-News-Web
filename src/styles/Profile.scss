@@ -12,12 +12,38 @@
     border-radius: 50%;
     float: left;
     margin-right: 50px;
+    &:hover {
+      .edit-profile-hover {
+        display: block;
+      }
+    }
   }
   .profile-image {
     display: inline;
     margin: 0 auto;
-    margin-left: -25%;
     height: 100%;
     width: auto;
+  }
+  .profile-info {
+    width: 80%;
+  }
+  .edit-profile-hover {
+    display: none;
+    z-index: 10;
+    position: absolute;
+    bottom: 0px;
+    height: 40px;
+    width: 100%;
+    text-align: center;
+    color: $white;
+    font-family: $font-sans-serif;
+    background-color: rgba(0, 0, 0, 0.1);
+    input {
+      cursor: pointer;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+    }
   }
 }

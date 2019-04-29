@@ -12,6 +12,15 @@
         display: block;
       }
     }
+    .link-description {
+      position: absolute;
+      left: 630px;
+      top: 0;
+      font-family: $font-sans-serif;
+      color: $mediumGray;
+      font-style: italic;
+      line-height: 1.5em;
+    }
   }
   .no-links-text {
     padding-left: 100px;

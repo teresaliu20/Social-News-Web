@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from 'styles/base.scss';
 
-const Textarea = ({ value, placeholder, onChange, label, error, height = 250, className }) => (
+const Textarea = ({ value, placeholder, onChange, label, error, style, className }) => (
 
-  <div className="form-textarea-wrapper" style={{ height }}>
+  <div className="form-textarea-wrapper" style={style}>
     <p className="form-label">{label}</p>
     <textarea
       value={value}
@@ -28,6 +28,7 @@ Textarea.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   error: PropTypes.string,
+  style: PropTypes.object,
 };
 
 export default Textarea;

@@ -52,6 +52,7 @@ class EditCollectionForm extends Component {
     if (collectionResp.status === 200) {
       collection = collectionResp.data.collectionInfo;
       links = collectionResp.data.links;
+      console.log("IN EDIT", collectionResp)
     }
 
     const allTopicsUrl = `${configOptions.hostname}/api/topics/all`;
@@ -92,12 +93,11 @@ class EditCollectionForm extends Component {
 
     if (!isEmpty(this.props.collection)) {
       const { collection, links } = this.props;
-      const linkUrls = links.map((link) => link.url);
 
       this.setState({
         name: collection.name,
         description: collection.description,
-        links: linkUrls,
+        links,
         collectionId: collection.id,
       });
     }
@@ -189,27 +189,33 @@ class EditCollectionForm extends Component {
   }
 
   handleAddLink = () => {
-    const { links, linkInput, linkDescription } = this.state;
+    const {links, linkInput, linkDescriptionInput} = this.state;
 
     const newErrors = { ...this.state.errors };
-    let newLinkError = '';
+    let newLinkError = ""
 
-    const linkInputClean = linkInput.trim();
-
+    const linkInputClean = linkInput.trim()
     if (validURL(linkInputClean)) {
-      const newLinks = [...links, linkInputClean];
-      this.setState({ links: newLinks });
+      const linkObject = {
+        'url': linkInputClean,
+        'description': linkDescriptionInput
+      }
+      const newLinks = [...links, linkObject]
+      this.setState({
+        links: newLinks
+      })
+      console.log(this.state)
     }
     else {
       const newErrors = { ...this.state.errors };
-      newLinkError = 'Link is not a valid URL.';
+      newLinkError = "Link is not a valid URL."
     }
 
     newErrors.linkInput = newLinkError;
     this.setState({
       linkInput: '',
       errors: newErrors,
-    });
+    })
   }
 
   handleGoBack = () => {
@@ -217,6 +223,8 @@ class EditCollectionForm extends Component {
   }
 
   render() {
+    console.log(this.state)
+
     const {
       name,
       description,
@@ -227,7 +235,7 @@ class EditCollectionForm extends Component {
       topicOptions,
       permissionSelected,
       permissionOptions,
-      linkDescription,
+      linkDescriptionInput,
    } = this.state;
 
     return (
@@ -277,29 +285,33 @@ class EditCollectionForm extends Component {
           error={errors.description}
         />
         <div className="links-section">
-          <Input
-            value={linkInput}
-            label="Collection Links"
-            placeholder="Enter link"
-            className="form-input-bordered"
-            onChange={(event) => this.setState({ linkInput: event.target.value })}
-            error={errors.linkInput}
-            buttonClick={this.handleAddLink}
-            buttonLabel="Add Link"
-          />
-          <Textarea
-            value={linkDescription}
-            placeholder="Type description of link (optional)"
-            className="form-textarea"
-            onChange={(event) => this.setState({ description: event.target.value })}
-            error={errors.linkDescription}
-            height={150}
-          />
-          <p className="form-label">Links Added</p>
-          {
-          links.length ? links.map((link, i) => (
-            <div className="link-url" key={i}>
-              <p className="text-sans-serif"><a href={link}>{link}</a></p>
+        <Textarea
+          label="Collection Links"
+          value={linkDescriptionInput}
+          placeholder="Type a short description of the link you're adding to this collection..."
+          className="form-textarea"
+          height={150}
+          onChange={(event) => this.setState({ linkDescriptionInput: event.target.value })}
+          error={errors.linkDescriptionInput}
+          style={{marginBottom: 2, height: 150}}
+        />
+        <Input
+          value={linkInput}
+          placeholder="Enter link"
+          className="form-input-bordered"
+          onChange={(event) => this.setState({ linkInput: event.target.value })}
+          error={errors.linkInput}
+          buttonClick={this.handleAddLink}
+          buttonLabel="Add Link"
+          style={{'marginTop': 0}}
+        />
+
+        <p className="form-label">Links Added</p>
+        {
+          links && links.length ? links.map((link, i) => (
+            <div className="link">
+              <p className="text-sans-serif"><a href={link}>{link.url}</a></p>
+              <p className="text-sans-serif text-italic-gray">{link.description}</p>
               <button
                 type="submit"
                 className="form-button-outline circle-button "

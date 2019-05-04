@@ -24,7 +24,7 @@ class LinksSection extends React.Component {
           <MicrolinkCard
             url={link.url}
           />
-          <p className="link-description ">Hello! This is a link description which is temporarily here. Its great hahaha.</p>
+          <p className="link-description ">{link.description}</p>
           <div className="link-side-menu">
             {
               sideMenuButtons.map((buttonObj) => (

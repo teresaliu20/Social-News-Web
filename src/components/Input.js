@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from 'styles/base.scss';
 
-const Input = ({ value, type, placeholder, onChange, label, error, className, buttonClick, buttonLabel }) => (
+const Input = ({ value, type, placeholder, onChange, label, error, className, buttonClick, buttonLabel, style }) => (
 
-  <div className="form-input-wrapper">
+  <div className="form-input-wrapper" style={style}>
     <p className="form-label">{label}</p>
     <div className="form-input-row">
       <input
@@ -45,6 +45,7 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   error: PropTypes.string,
+  style: PropTypes.object,
 };
 
 export default Input;

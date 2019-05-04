@@ -62,6 +62,11 @@ a {
   font-style: italic;
 }
 
+.text-italic-gray {
+  color: $mediumGray;
+  font-style: italic;
+}
+
 .highlight {
   position: relative;
   display: inline-block;
@@ -309,7 +314,6 @@ a {
   flex-flow: row wrap;
   margin: auto
 }
-
 
 .circle-button {
   height: 30px;

@@ -150,13 +150,10 @@ class Profile extends React.Component {
 
     const url = `${configOptions.hostname}/api/users/${user.data.id}/profilepicture`;
 
-    const followersResp = await axios.post(url, formData, config);
+    const profilepicResp = await axios.post(url, formData, config);
 
-    if (followersResp.status === 200) {
-      this.setState({
-        followers: followersResp.data
-      })
-    }
+    console.log(profilepicResp)
+
   }
 
   componentDidMount = async () => {

@@ -111,7 +111,7 @@ class MyProfile extends React.Component {
         <div className="padded-section">
           {
           <div className="profile-image-wrapper">
-            <img className="profile-image" src={ image ? `${configOptions.hostname}${image}` : "static/blankprofile.png"}/>
+            <img className="profile-image" src={ image ? `${image}` : "static/blankprofile.png"}/>
           </div>
           }
           {

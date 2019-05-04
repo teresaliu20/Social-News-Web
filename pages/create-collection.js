@@ -211,6 +211,7 @@ class CreateCollectionForm extends Component {
           value={topicsSelected}
           onChange={this.handleTopicListChange}
           options={topicOptions}
+          style={{marginTop: 20}}
           isMulti
         />
         <MySelect

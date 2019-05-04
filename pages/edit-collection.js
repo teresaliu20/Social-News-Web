@@ -94,10 +94,15 @@ class EditCollectionForm extends Component {
     if (!isEmpty(this.props.collection)) {
       const { collection, links } = this.props;
 
+      const linkObjects = links.map(link => ({
+        url: link.url,
+        description: link.description
+      }))
+
       this.setState({
         name: collection.name,
         description: collection.description,
-        links,
+        links: linkObjects,
         collectionId: collection.id,
       });
     }
@@ -204,7 +209,6 @@ class EditCollectionForm extends Component {
       this.setState({
         links: newLinks
       })
-      console.log(this.state)
     }
     else {
       const newErrors = { ...this.state.errors };
@@ -223,7 +227,6 @@ class EditCollectionForm extends Component {
   }
 
   render() {
-    console.log(this.state)
 
     const {
       name,
@@ -275,6 +278,7 @@ class EditCollectionForm extends Component {
           value={permissionSelected}
           onChange={this.handlePermissionChanged}
           options={permissionOptions}
+          style={{marginTop: 20}}
         />
         <Textarea
           label="Description"

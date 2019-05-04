@@ -47,6 +47,7 @@ class Profile extends React.Component {
 
       if (collectionsResp.status === 200 && collectionsResp.data) {
         collections = collectionsResp.data.collections;
+
       }
     }
 
@@ -186,6 +187,21 @@ class Profile extends React.Component {
     }
   }
 
+  getViewableCollection = () => {
+    let collections = this.props.collectionsViewing;
+
+    const { isFollowing } = this.state;
+    console.log(collections)
+    if (isFollowing) {
+      collections = collections.filter(collection => collection.permission === 'Network' || collection.permission === 'Public')
+    }
+    else {
+      collections = collections.filter(collection => collection.permission === 'Public')
+    }
+
+    return collections
+  }
+
   render() {
 
     if (this.props.notFound) {
@@ -193,7 +209,7 @@ class Profile extends React.Component {
     }
 
     const { isFollowing, isLoggedIn } = this.state;
-    const collections = this.props.collectionsViewing;
+    const collections = this.getViewableCollection();
 
     const userInfo = this.props.userViewing;
 

@@ -51,9 +51,9 @@ const customTheme = (theme) => ({
   },
 });
 
-const MySelect = ({ value, placeholder, onChange, options, isMulti, label, error }) => (
+const MySelect = ({ value, placeholder, onChange, options, isMulti, label, error, style }) => (
 
-  <div className="form-select-wrap">
+  <div className="form-select-wrap" style={style}>
     {
       label && <p className="form-label">{label}</p>
     }
@@ -82,6 +82,7 @@ MySelect.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   error: PropTypes.string,
+  style: PropTypes.object,
 };
 
 export default MySelect;

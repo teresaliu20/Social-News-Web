@@ -26,7 +26,7 @@ class Login extends Component {
   componentDidUpdate(prevProps) {
     const { user } = this.props;
     if (isEmpty(prevProps.user.data) && !isEmpty(user.data)) {
-      Router.push('/profile');
+      Router.push('/my-profile');
     }
 
     else if (prevProps.user.pending && !user.pending && user.error) {

@@ -29,7 +29,7 @@ class Header extends React.Component {
                 <a>Reading List</a>
               </div>
             </Link>
-            <Link href="/profile">
+            <Link href="/my-profile">
               <div className="menu-item">
                 <a>Profile</a>
               </div>

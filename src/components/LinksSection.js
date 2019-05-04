@@ -21,32 +21,29 @@ class LinksSection extends React.Component {
     links && links.length ? links.map((link) => {
       return (
         <div className="link" key={shortid.generate()}>
-          {
-            <div>
-              <MicrolinkCard
-                url={link.url}
-              />
-              <div className="link-side-menu">
-                {
-                  sideMenuButtons.map((buttonObj) => (
-                    <div className="link-item">
-                      <p className="link-item-label">{buttonObj.label}</p>
-                      <button
-                        type="submit"
-                        className="form-button-outline circle-button "
-                        onClick={() => buttonObj.handlePress(link)}
-                      >
-                        <img
-                          alt={buttonTypeToSVG[buttonObj.buttonType]}
-                          src={buttonTypeToSVG[buttonObj.buttonType]}
-                        />
-                      </button>
-                    </div>
-                  ))
-                }
-              </div>
-            </div>
-          }
+          <MicrolinkCard
+            url={link.url}
+          />
+          <p className="link-description ">{link.description}</p>
+          <div className="link-side-menu">
+            {
+              sideMenuButtons.map((buttonObj) => (
+                <div className="link-item">
+                  <p className="link-item-label">{buttonObj.label}</p>
+                  <button
+                    type="submit"
+                    className="form-button-outline circle-button "
+                    onClick={() => buttonObj.handlePress(link)}
+                  >
+                    <img
+                      alt={buttonTypeToSVG[buttonObj.buttonType]}
+                      src={buttonTypeToSVG[buttonObj.buttonType]}
+                    />
+                  </button>
+                </div>
+              ))
+            }
+          </div>
         </div>
       );
     })

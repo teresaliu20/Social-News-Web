@@ -9,6 +9,9 @@ const APP_ROUTES = [{
   page: 'profile',
   pattern: '/profile/:id',
 }, {
+  page: 'my-profile',
+  pattern: '/my-profile',
+}, {
   page: 'collection',
   pattern: '/collection/:id',
 }, {
@@ -35,6 +38,9 @@ const APP_ROUTES = [{
 }, {
   page: 'reading-list',
   pattern: '/reading-list',
+}, {
+  page: '404-not-found',
+  pattern: '/404-not-found',
 }];
 
 APP_ROUTES.forEach((route) => routes.add(route));

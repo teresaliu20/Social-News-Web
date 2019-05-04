@@ -8,6 +8,7 @@ import config from '../src/config';
 import styles from '../src/styles/Search.scss';
 import errorMessages from '../src/constants/errorMessages';
 import CollectionCard from '../src/components/CollectionCard';
+import UserPreview from '../src/components/UserPreview';
 
 const configOptions = config[process.env.NODE_ENV || 'development'];
 
@@ -138,14 +139,7 @@ class Collection extends Component {
                 <div>
                   {
                     searchUsersResults.map((result) => (
-                      <Link href={`/profile?id=${result.id}`} key={result.id}>
-                        <div className="result-item-user">
-                          <h3>{`${result.first_name} ${result.last_name}`}</h3>
-                          <p className="text-sans-serif text-light-gray">
-                            @{result.username}
-                          </p>
-                        </div>
-                      </Link>
+                      <UserPreview user={result} />
                     ))
                   }
                 </div>

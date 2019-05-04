@@ -24,16 +24,10 @@ export const getCollectionsAction = (userId) => {
   };
 };
 
-export const createNewCollectionAction = (name, userId, description, links, topics) => {
+export const createNewCollectionAction = (payload) => {
   return async (dispatch) => {
     const url = `${configOptions.hostname}/api/collections`;
-    axios.post(url, {
-      name,
-      user_id: userId,
-      description,
-      links,
-      topics,
-    })
+    axios.post(url, payload)
       .then((res) => {
         dispatch({
           type: Types.POST_COLLECTIONS_SUCCESS,
@@ -49,17 +43,10 @@ export const createNewCollectionAction = (name, userId, description, links, topi
   };
 };
 
-export const editCollectionAction = (name, userId, description, links, collectionId, topics) => {
+export const editCollectionAction = (payload) => {
   return async (dispatch) => {
     const url = `${configOptions.hostname}/api/collections/edit`;
-    axios.post(url, {
-      name,
-      user_id: userId,
-      description,
-      links,
-      collection_id: collectionId,
-      topics,
-    })
+    axios.post(url, payload)
       .then((res) => {
         dispatch({
           type: Types.EDIT_COLLECTIONS_SUCCESS,

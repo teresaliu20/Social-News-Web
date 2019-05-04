@@ -7,8 +7,11 @@ import { isEmpty } from 'lodash';
 import styles from 'styles/Profile.scss';
 import { connect } from 'react-redux';
 import CollectionCard from '../src/components/CollectionCard';
+import UserPreview from '../src/components/UserPreview';
+import ModalWrapper from '../src/components/ModalWrapper';
 import Types from '../src/actions/index';
 import { getCollectionsAction } from '../src/actions/collections';
+import { getFollowingsAction, addFollowingAction } from '../src/actions/social';
 import config from '../src/config';
 
 const configOptions = config[process.env.NODE_ENV || 'development'];
@@ -21,7 +24,7 @@ class Profile extends React.Component {
     // if no query id is supplied, show logged in user's profile as default
     if (!query.id) {
       return {
-        isOwnProfile: true,
+        notFound: true,
       };
     }
 
@@ -44,6 +47,7 @@ class Profile extends React.Component {
 
       if (collectionsResp.status === 200 && collectionsResp.data) {
         collections = collectionsResp.data.collections;
+
       }
     }
 
@@ -51,70 +55,172 @@ class Profile extends React.Component {
     return {
       userViewing: profile,
       collectionsViewing: collections,
-      isOwnProfile: false,
     };
   }
 
-  componentDidMount() {
-    const { user, isOwnProfile } = this.props;
-    if (isOwnProfile && (!user.data || isEmpty(user.data))) {
-      Router.push('/login');
+  state = {
+    isFollowing: false,
+    isLoggedIn: false,
+  }
+
+  openFollowingsModal = () => {
+    this.setState({
+      followingsModalOpen: true,
+    })
+  }
+
+  closeFollowingsModal = () => {
+    this.setState({
+      followingsModalOpen: false,
+    })
+  }
+
+  openFollowersModal = () => {
+    this.setState({
+      followersModalOpen: true,
+    })
+  }
+
+  closeFollowersModal = () => {
+    this.setState({
+      followersModalOpen: false,
+    })
+  }
+
+  handleAddFollowing = async () => {
+    const { user } = this.props;
+    const followerId = user.data.id;
+
+    const followingId = this.props.userViewing.id;
+
+    const url = `${configOptions.hostname}/api/users/${followerId}/following`;
+
+    const followingResp = await axios.post(url, {
+      following_id: followingId,
+    })
+
+    if (followingResp.status === 200) {
+      this.props.getFollowings(user.data.id);
+    }
+    else {
+      alert("Error adding following!");
+    }
+  }
+
+  handleDeleteFollowing = async () => {
+    const { user } = this.props;
+    const followerId = user.data.id;
+
+    const followingId = this.props.userViewing.id;
+
+    const url = `${configOptions.hostname}/api/users/${followerId}/following`;
+
+    const followingResp = await axios.delete(url, {
+      data: {
+        following_id: followingId,
+      }
+     });
+
+    if (followingResp.status === 200) {
+      this.props.getFollowings(user.data.id);
+    }
+    else {
+      alert("Error deleting following!");
+    }
+  }
+
+  componentDidMount = async () => {
+    const { user, followings, userViewing, notFound } = this.props;
+    if (!user.data || isEmpty(user.data)) {
+      this.setState({
+        isLoggedIn: false,
+      })
+    }
+    else {
+      this.setState({
+        isLoggedIn: true,
+      })
     }
 
-    const { id } = user.data;
-
-    if (id) {
-      this.props.getCollections(id);
+    if (!notFound && followings.find(following => userViewing.id === following.id)) {
+      this.setState({
+        isFollowing: true,
+      })
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { user, isOwnProfile } = this.props;
-    if (isOwnProfile && !isEmpty(prevProps.user.data) && isEmpty(user.data)) {
-      Router.push('/login');
+    const { followings, userViewing, notFound } = this.props;
+
+    if (!notFound && prevProps.followings.length !== followings.length) {
+      this.setState({
+        isFollowing: followings.find(following => userViewing.id === following.id)
+      })
     }
   }
 
+  getViewableCollection = () => {
+    let collections = this.props.collectionsViewing;
+
+    const { isFollowing } = this.state;
+    console.log(collections)
+    if (isFollowing) {
+      collections = collections.filter(collection => collection.permission === 'Network' || collection.permission === 'Public')
+    }
+    else {
+      collections = collections.filter(collection => collection.permission === 'Public')
+    }
+
+    return collections
+  }
 
   render() {
-    const { isOwnProfile } = this.props;
 
-    // set collections and user to the current logged in user by default
-    let { collections } = this.props;
-
-    let userInfo = this.props.user.data;
-
-    // if user is not viewing their own profile, grab collections and user from initial props
-    // created by get request to another user's profile
-    if (!isOwnProfile) {
-      collections = this.props.collectionsViewing;
-      userInfo = this.props.userViewing;
+    if (this.props.notFound) {
+      return <h1>Oh no! This user is not found</h1>
     }
+
+    const { isFollowing, isLoggedIn } = this.state;
+    const collections = this.getViewableCollection();
+
+    const userInfo = this.props.userViewing;
 
     const { first_name, last_name, email } = userInfo;
 
     let { bio } = userInfo;
 
-    if (!bio)
-      bio = isOwnProfile ? 'Welcome! Edit your profile to add a short bio about yourself.' : 'No bio yet.';
-
-
+    if (!bio) {
+      bio = 'No bio yet.';
+    }
     return (
       <div className="profile-page">
-        <div className="padded-section form-with-corner-button">
-          {/*
-          <div className="profile-image-wrapper">
-              <img className="profile-image" src="https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/46011115_1144893639011707_5262389549639663616_o.jpg?_nc_cat=104&_nc_ht=scontent-lax3-1.xx&oh=c722ca9556484c970297dbb977c2e7f0&oe=5D1423DE" />
-          </div>
-          */}
+        <div className="padded-section">
           {
-            isOwnProfile && (
-            <Link
-              prefetch
-              href="/edit-profile"
-            >
-              <button className="form-button-outline">Edit Profile</button>
-            </Link>
+          <div className="profile-image-wrapper">
+            <img className="profile-image" src="static/blankprofile.png"/>
+          </div>
+          }
+          {
+            isLoggedIn &&
+           (
+            <div className="corner-menu">
+              {
+                isFollowing ? 
+                <div
+                className="follow-button following clickable"
+                onClick={this.handleDeleteFollowing}
+                 >
+                   Following
+                </div>
+                :
+                <div
+                  className="follow-button clickable"
+                  onClick={this.handleAddFollowing}
+                 >
+                   Follow
+                </div>
+              }
+            </div>
             )
           }
           <h1>{`${first_name} ${last_name}`}</h1>
@@ -122,17 +228,6 @@ class Profile extends React.Component {
         </div>
         <div className="collections-section padded-section form-with-corner-button">
           <h2>Collections</h2>
-          {
-            isOwnProfile && (
-            <Link
-              prefetch
-              href="/create-collection"
-            >
-              <button className="form-button-outline">Create New Collection</button>
-            </Link>
-            )
-          }
-
         </div>
         <div className="collection-section">
           {
@@ -166,12 +261,16 @@ Profile.propTypes = {
 const mapStateToProps = (state) => ({
   user: state.user,
   collections: state.collections,
+  followings: state.social.followings,
+  followers: state.social.followers,
 });
 
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getCollections: (userId) => dispatch(getCollectionsAction(userId)),
+    getFollowings: (userId) => dispatch(getFollowingsAction(userId)),
+    addFollowing: (userId) => dispatch(addFollowingAction(userId)),
   };
 };
 

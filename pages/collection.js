@@ -111,12 +111,15 @@ class Collection extends Component {
           {
             isOwnCollection
             && (
-            <Link
-              prefetch
-              href={`/edit-collection?id=${collection.id}`}
-            >
-              <button className="form-button-outline corner-button">Edit Collection</button>
-            </Link>
+            <div className="corner-menu">
+              <p className="text-light-gray">{`Sharing: ${collection.permission}`}</p>
+              <Link
+                prefetch
+                href={`/edit-collection?id=${collection.id}`}
+              >
+                <button className="form-button-outline">Edit Collection</button>
+              </Link>
+            </div>
             )
           }
           <h1>{collection.name}</h1>

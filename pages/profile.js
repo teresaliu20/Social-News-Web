@@ -129,34 +129,6 @@ class Profile extends React.Component {
     }
   }
 
-  handleEditProfileImage = async (e) => {
-    const { user } = this.props;
-    const files = Array.from(e.target.files)
-
-    if (files.length > 1) {
-      const msg = 'Only 1 image can be uploaded at a time'
-      alert(msg)
-    }
-
-    const image = files[0]
-
-    const formData = new FormData();
-    formData.append('file', image)
-
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data'
-      }
-    }
-
-    const url = `${configOptions.hostname}/api/users/${user.data.id}/profilepicture`;
-
-    const profilepicResp = await axios.post(url, formData, config);
-
-    console.log(profilepicResp)
-
-  }
-
   componentDidMount = async () => {
     const { user, followings, userViewing, notFound } = this.props;
     if (!user.data || isEmpty(user.data)) {
@@ -226,10 +198,6 @@ class Profile extends React.Component {
           {
           <div className="profile-image-wrapper">
             <img className="profile-image" src="static/blankprofile.png"/>
-            <div className="edit-profile-hover clickable" >
-            <label for="single">Edit</label>
-              <input type='file' id='single' accept="image/png, image/jpeg" onChange={(e) => this.handleEditProfileImage(e)}/> 
-            </div>
           </div>
           }
           {

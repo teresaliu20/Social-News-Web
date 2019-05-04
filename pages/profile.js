@@ -117,7 +117,7 @@ class Profile extends React.Component {
 
     const followingResp = await axios.delete(url, {
       data: {
-        following_id: followingId,
+        delete_id: followingId,
       }
      });
 

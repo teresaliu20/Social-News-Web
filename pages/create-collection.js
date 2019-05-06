@@ -106,8 +106,15 @@ class CreateCollectionForm extends Component {
     newErrors.linkInput = newLinkError;
     this.setState({
       linkInput: '',
+      linkDescriptionInput: '',
       errors: newErrors,
     })
+  }
+
+  handlePermissionChanged = (permissionSelected) => {
+    this.setState({
+      permissionSelected,
+    });
   }
 
   handleRemovelink = (index) => {
